@@ -1,0 +1,31 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "outDir": "dist"
+  },
+  "references": [
+    {
+      "path": "ble"
+    },
+    {
+      "path": "ble.noble"
+    }
+  ],
+  "include": [
+    "ble/src/**/*.ts",
+    "ble.noble/src/**/*.ts",
+  ]
+}
