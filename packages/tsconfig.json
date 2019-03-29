@@ -21,7 +21,7 @@
       "path": "ble-central"
     },
     {
-      "path": "ble.noble"
+      "path": "ble-central.noble"
     },
     {
       "path": "network.ble"
@@ -29,7 +29,7 @@
   ],
   "include": [
     "ble-central/src/**/*.ts",
-    "ble.noble/src/**/*.ts",
+    "ble-central.noble/src/**/*.ts",
     "network.ble/src/**/*.ts"
   ]
 }
