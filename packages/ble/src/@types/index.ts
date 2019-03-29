@@ -3,8 +3,12 @@ export interface IXyoAdvertisement {
     txPowerLevel: number
     manufacturerData: Buffer
     serviceUuids: string[]
-    // tslint:disable-next-line:prefer-array-literal
-    serviceData: Array<{uuid: string, data: Buffer}>
+    serviceData: Array<IXyoServiceData>
+  }
+
+  export interface IXyoServiceData {
+      uuid: string,
+      data: Buffer
   }
 
   export interface IXyoBluetoothDevice {

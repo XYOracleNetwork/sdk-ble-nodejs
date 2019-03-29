@@ -1,4 +1,4 @@
-import { IXyoAdvertisement, IXyoService } from '@xyo-network/ble'
+import { IXyoAdvertisement, IXyoService, IXyoServiceData } from '@xyo-network/ble'
 import { XyoLogger } from '@xyo-network/logger'
 // import noble from '@s524797336/noble-mac'
 import noble from 'noble'
@@ -22,9 +22,8 @@ export class NobleAdvertisement implements IXyoAdvertisement {
     return this.advertisement.serviceUuids
   }
 
-  // tslint:disable-next-line:prefer-array-literal
-  get serviceData (): Array<{uuid: string, data: Buffer}> {
-    return this.advertisement.serviceData
+  get serviceData (): Array<IXyoServiceData> {
+    return this.advertisement.serviceData as IXyoServiceData[]
   }
 
   constructor (advertisement: noble.Advertisement) {

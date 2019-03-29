@@ -58,7 +58,6 @@ export class NobleScan implements IXyoScan {
   private cleanDevices = () => {
     for (const id in this.inRangeDevices) {
       if (Date.now() - (this.inRangeDevices[id].lastSeen) > 5000) {
-                // this.logger.info("Device exited with id: " + this.inRangeDevices[id].id);
         delete this.inRangeDevices[id]
       }
     }
@@ -73,7 +72,6 @@ export class NobleScan implements IXyoScan {
 
     if (entered) {
       this.inRangeDevices[peripheral.id] = new NobleDevice(peripheral)
-            // this.logger.info("Device entered with id: " + peripheral.id);
     }
 
     this.inRangeDevices[peripheral.id].lastSeen = Date.now()

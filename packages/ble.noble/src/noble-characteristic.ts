@@ -1,6 +1,5 @@
 import { IXyoCharacteristic, IXyoDescriptor } from '@xyo-network/ble'
 import { NobleDescriptor } from './noble-descriptor'
-// import noble from '@s524797336/noble-mac'
 import noble from 'noble'
 import { XyoLogger } from '@xyo-network/logger'
 

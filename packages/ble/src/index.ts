@@ -6,7 +6,8 @@ export {
     IXyoDescriptor, 
     IXyoIBeacon, 
     IXyoScan, 
-    IXyoService
+    IXyoService,
+    IXyoServiceData
 } from './@types'
 
 export { getIBeacon } from './util/xyo-ibeacon-parser'
