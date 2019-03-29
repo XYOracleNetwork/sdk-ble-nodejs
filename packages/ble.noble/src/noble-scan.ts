@@ -1,5 +1,5 @@
 import { XyoLogger } from "@xyo-network/logger"
-import { IXyoBluetoothDevice, IXyoScan } from '@xyo-network/ble'
+import { IXyoBluetoothDevice, IXyoScan } from "@xyo-network/ble-central"
 // import noble from '@s524797336/noble-mac'
 import noble from 'noble'
 import { NobleDevice } from "./noble-device"

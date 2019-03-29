@@ -1,6 +1,6 @@
 import { IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, IXyoNetworkPipe } from '@xyo-network/network'
 import { XyoNearbyDevices } from './devices/xyo-nearby-devices'
-import { IXyoScan } from '@xyo-network/ble'
+import { IXyoScan } from "@xyo-network/ble-central"
 import { XyoPipeClient } from './devices/xyo-pipe-client'
 
 export class XyoBluetoothNetwork implements IXyoNetworkProvider {

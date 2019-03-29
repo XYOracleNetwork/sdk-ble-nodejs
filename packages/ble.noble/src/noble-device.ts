@@ -1,4 +1,4 @@
-import { IXyoBluetoothDevice, IXyoAdvertisement, IXyoService } from '@xyo-network/ble'
+import { IXyoBluetoothDevice, IXyoAdvertisement, IXyoService } from "@xyo-network/ble-central"
 import { XyoLogger } from '@xyo-network/logger'
 import { NobleAdvertisement } from './noble-advertisement'
 import { NobleService } from './noble-service'

@@ -7,7 +7,7 @@
   "author": "Carter Harrison",
   "license": "MIT",
   "dependencies": {
-    "@xyo-network/ble": "^0.49.0",
+    "@xyo-network/ble-central": "^0.49.0",
     "@xyo-network/logger": "0.29.0",
     "noble": "1.9.1"
   },

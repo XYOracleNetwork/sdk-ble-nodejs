@@ -1,4 +1,4 @@
-import { IXyoAdvertisement, IXyoService, IXyoServiceData } from '@xyo-network/ble'
+import { IXyoAdvertisement, IXyoService, IXyoServiceData } from "@xyo-network/ble-central"
 import { XyoLogger } from '@xyo-network/logger'
 // import noble from '@s524797336/noble-mac'
 import noble from 'noble'

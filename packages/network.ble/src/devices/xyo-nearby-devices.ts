@@ -1,5 +1,5 @@
 import { XyoPipeClient } from './xyo-pipe-client'
-import { getIBeacon, IXyoBluetoothDevice } from '@xyo-network/ble'
+import { getIBeacon, IXyoBluetoothDevice } from "@xyo-network/ble-central"
 import { XyoLogger } from '@xyo-network/logger'
 
 export class XyoNearbyDevices {

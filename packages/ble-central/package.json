@@ -1,5 +1,5 @@
 {
-  "name": "@xyo-network/ble",
+  "name": "@xyo-network/ble-central",
   "version": "0.49.0",
   "description": "Bluetooth Network for XYO",
   "main": "dist/index.js",

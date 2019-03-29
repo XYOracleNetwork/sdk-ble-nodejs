@@ -1,4 +1,4 @@
-import { IXyoDescriptor } from '@xyo-network/ble'
+import { IXyoDescriptor } from "@xyo-network/ble-central"
 import { XyoLogger } from '@xyo-network/logger'
 import noble from 'noble'
 

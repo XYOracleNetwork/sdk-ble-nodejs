@@ -1,4 +1,4 @@
-import { IXyoBluetoothDevice, IXyoCharacteristic } from '@xyo-network/ble'
+import { IXyoBluetoothDevice, IXyoCharacteristic } from "@xyo-network/ble-central"
 import { IXyoNetworkPipe, IXyoNetworkPeer, CatalogueItem } from '@xyo-network/network'
 import { XyoLogger } from '@xyo-network/logger'
 import { IXyoSerializableObject } from '@xyo-network/serialization'

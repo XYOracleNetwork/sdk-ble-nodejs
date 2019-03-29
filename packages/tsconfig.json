@@ -18,7 +18,7 @@
   },
   "references": [
     {
-      "path": "ble"
+      "path": "ble-central"
     },
     {
       "path": "ble.noble"
@@ -28,7 +28,7 @@
     }
   ],
   "include": [
-    "ble/src/**/*.ts",
+    "ble-central/src/**/*.ts",
     "ble.noble/src/**/*.ts",
     "network.ble/src/**/*.ts"
   ]

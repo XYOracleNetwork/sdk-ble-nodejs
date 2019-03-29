@@ -22,6 +22,6 @@
   ],
   "include": ["src/**/*"],
   "references": [
-    {"path": "../ble"},
+    {"path": "../ble-central"},
   ]
 }
