@@ -58,7 +58,6 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         }) as IXyoNetworkPipe
 
         await this.server.stopAdvertising()
-
         return result
     }
 
