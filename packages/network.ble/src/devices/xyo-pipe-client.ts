@@ -4,6 +4,7 @@ import { XyoLogger } from '@xyo-network/logger'
 import { IXyoSerializableObject } from '@xyo-network/serialization'
 import { rssiSerializationProvider } from '@xyo-network/heuristics-common'
 import { XyoBase } from '@xyo-network/base'
+import { chunk } from "../data/xyo-output-stream";
 
 export class XyoPipeClient implements IXyoNetworkPipe {
   public networkHeuristics: IXyoSerializableObject[] = []
@@ -135,7 +136,7 @@ export class XyoPipeClient implements IXyoNetworkPipe {
 
     const action = new Promise(async (resolve, reject) => {
 
-      const chunksToSend = this.chunk(this.addBleSize(data), 20)
+      const chunksToSend = chunk(this.addBleSize(data), 20)
       this.logger.info(`Sending entire: ${data.toString('hex')}`)
 
     // tslint:disable-next-line:prefer-for-of
@@ -146,19 +147,6 @@ export class XyoPipeClient implements IXyoNetworkPipe {
     })
 
     await Promise.race([timeout, action])
-  }
-
-  private chunk(data: Buffer, maxSize: number): Buffer[] {
-    const chunks: Buffer[] = []
-    let currentIndex = 0
-
-    while (currentIndex !== data.length) {
-      const chunkSize = Math.min(maxSize, data.length - currentIndex)
-      chunks.push(data.slice(currentIndex, currentIndex + chunkSize))
-      currentIndex += chunkSize
-    }
-
-    return chunks
   }
 
   private addBleSize(data: Buffer): Buffer {

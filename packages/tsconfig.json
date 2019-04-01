@@ -25,11 +25,15 @@
     },
     {
       "path": "network.ble"
+    },
+    {
+      "path": "ble-peripheral"
     }
   ],
   "include": [
     "ble-central/src/**/*.ts",
     "ble-central.noble/src/**/*.ts",
-    "network.ble/src/**/*.ts"
+    "network.ble/src/**/*.ts",
+    "ble-peripheral/src/**/*.ts"
   ]
 }
