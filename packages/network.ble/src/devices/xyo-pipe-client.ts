@@ -35,7 +35,6 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   public async tryCreatePipe (): Promise<null | IXyoNetworkPipe> {
     const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
       XyoBase.timeout(() => {
-        console.log("timeout")
         this.device.disconnect()
         reject("Timeout")
       }, 10000)
@@ -93,7 +92,6 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   public read (characteristic: IXyoCharacteristic): Promise<Buffer> {
     const timeout = new Promise((resolve, reject) => {
       XyoBase.timeout(() => {
-        console.log("timeout")
         reject("Timeout")
       }, 12000)
     }) as Promise<Buffer>

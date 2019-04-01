@@ -11,5 +11,9 @@
   "description": "A BLE SDK for node JS designed for XYO",
   "main": "index.js",
   "author": "Carter Harrison <carterjharrison@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@types/bleno": "^0.4.1",
+    "bleno": "^0.5.0"
+  }
 }
