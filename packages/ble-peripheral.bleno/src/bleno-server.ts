@@ -36,6 +36,3 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
         })
     }
 }
-
-
-const test = new BlenoServer()

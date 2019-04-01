@@ -67,8 +67,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     }
 
     public async stopServer(): Promise <void> {
-
-        return
+        await this.server.stopAdvertising()
     }
 }
 
