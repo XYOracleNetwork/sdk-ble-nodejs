@@ -5,6 +5,7 @@ import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 export class XyoServerNetwork implements IXyoNetworkProvider {
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
     private pipeCharacteristic: IXyoMutableCharacteristic
+    private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
 
     private serverEndpoint: IXyoMutableCharacteristicListener = {
         onWrite: (value: Buffer, device: IXyoPeripheral)  => {
@@ -24,18 +25,31 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
             const firstSend = this.phraseFirstSend(value)
 
-            this.deviceRouter[deviceKey] = new XyoCharacteristicHandle(peer, firstSend, this.pipeCharacteristic)
+            this.deviceRouter[deviceKey] = new XyoCharacteristicHandle(
+                peer,
+                firstSend, 
+                this.pipeCharacteristic,
+                this.closeHandler
+            )
         }
     }
 
     constructor(pipeCharacteristic: IXyoMutableCharacteristic) {
         this.pipeCharacteristic = pipeCharacteristic
-
         pipeCharacteristic.addListener("server_xyo_main", this.serverEndpoint)
     }
 
+    private closeHandler = (id: string) => {
+        delete this.deviceRouter[id]
+    }
+
     public find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> { 
-        throw new Error("stub")
+        return new Promise((resolve, reject) => {
+            this.onNewPipe = (pipe: IXyoNetworkPipe) => {
+                this.onNewPipe = undefined
+                resolve(pipe)
+            }
+        })
     }
 
     private phraseFirstSend (buffer: Buffer): Buffer {

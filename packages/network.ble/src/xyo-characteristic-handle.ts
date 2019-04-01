@@ -8,13 +8,20 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     private characteristic: IXyoMutableCharacteristic
     private packetCompleteCallback: ((packet: Buffer) => void) | undefined
     private inputStream: XyoInputStream = new XyoInputStream()
+    private onClose: (id: string) => void
 
     peer: IXyoNetworkPeer
     otherCatalogue: CatalogueItem[] | undefined
     initiationData: Buffer | undefined
     networkHeuristics: IXyoSerializableObject[]
 
-    constructor (peer: IXyoNetworkPeer, initiationData: Buffer, characteristic: IXyoMutableCharacteristic) {
+    constructor (
+        peer: IXyoNetworkPeer, 
+        initiationData: Buffer,
+        characteristic: IXyoMutableCharacteristic,
+        onClose: (id: string) => void ) {
+
+        this.onClose = onClose
         this.networkHeuristics = []
         this.peer = peer
         this.initiationData = initiationData
@@ -74,6 +81,6 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     async close(): Promise<void> {
-
+        this.close()
     }
 }
