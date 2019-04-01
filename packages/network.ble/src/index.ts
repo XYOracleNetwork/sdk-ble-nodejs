@@ -3,3 +3,4 @@ import { XyoNearbyDevices } from './devices/xyo-nearby-devices'
 import { IXyoScan } from "@xyo-network/ble-central"
 
 export { XyoClientBluetoothNetwork } from './xyo-client-ble-network'
+export { XyoServerNetwork } from './xyo-server-ble-network'

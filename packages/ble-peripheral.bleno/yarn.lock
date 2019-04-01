@@ -18,20 +18,32 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
+"@types/bleno@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@types/bleno/-/bleno-0.4.1.tgz#55b963310fcce33233b4e3872aa9e6d3d36cb4d7"
+  integrity sha512-CY4CG5jFURnigEi1qQVnKgtyxg7jQEAmTjBpawejmt91XRThKowP90IvZksv/Qrjfh5IgZIGLe0SXGMUpwS6ZA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/jest@^23.3.1":
   version "23.3.14"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-23.3.14.tgz#37daaf78069e7948520474c87b80092ea912520a"
   integrity sha512-Q5hTcfdudEL2yOmluA1zaSyPbzWPmJ3XfSWeP3RyoYvS9hnje1ZyagrZOuQ6+1nQC1Gw+7gap3pLNL3xL6UBug==
+
+"@types/node@*":
+  version "11.13.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.13.0.tgz#b0df8d6ef9b5001b2be3a94d909ce3c29a80f9e1"
+  integrity sha512-rx29MMkRdVmzunmiA4lzBYJNnXsW/PhG4kMBy2ATsYaDjGGR75dCFEVVROKpNwlVdcUX3xxlghKQOeDPBJobng==
 
 "@types/node@^10.7.1":
   version "10.14.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.4.tgz#1c586b991457cbb58fef51bc4e0cfcfa347714b5"
   integrity sha512-DT25xX/YgyPKiHFOpNuANIQIVvYEwCWXgK2jYYwqgaMrYE6+tq+DtmMwlD3drl6DJbUwtlIDnn0d7tIn/EbXBg==
 
-"@xyo-network/ble-peripheral@^0.50.0":
-  version "0.50.0"
-  resolved "https://registry.yarnpkg.com/@xyo-network/ble-peripheral/-/ble-peripheral-0.50.0.tgz#c9aded355c81f1802ac9eaa24b04ac8352347039"
-  integrity sha512-X73GeFRTz8XN+iOfp4ZO4aoYYlUcoY6IHO75ndRmBuUPd3iuUPWgNRyMoaG/XuagH+EHYXrbT8pofR8WSf30MQ==
+"@xyo-network/ble-peripheral@^0.52.0":
+  version "0.52.0"
+  resolved "https://registry.yarnpkg.com/@xyo-network/ble-peripheral/-/ble-peripheral-0.52.0.tgz#8a080c41300b484b68f39dcb07e1837341f391e5"
+  integrity sha512-ASkDvNgEHupdlu8fTM0DjwdEk0AgpnBrsDwk09kEifmyFai8GUcZ+zMhVJLev0cYbdoht/32TnMD9Cxhdkn4qQ==
   dependencies:
     i "^0.3.6"
     npm "^6.9.0"
