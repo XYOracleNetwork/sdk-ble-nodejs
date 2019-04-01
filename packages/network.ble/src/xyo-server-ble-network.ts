@@ -1,8 +1,11 @@
-import { IXyoMutableCharacteristic, IXyoMutableCharacteristicListener, IXyoPeripheral } from '@xyo-network/ble-peripheral'
+import { IXyoMutableCharacteristic, IXyoMutableCharacteristicListener, IXyoPeripheral, IXyoBluetoothPeripheral } from '@xyo-network/ble-peripheral'
 import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, CatalogueItem, IXyoNetworkPeer } from '@xyo-network/network';
 import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
+import { XyoAdvertisement } from './data/xyo-advertisement';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
+    private advData = new XyoAdvertisement(0, 0)
+    private server: IXyoBluetoothPeripheral
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
     private pipeCharacteristic: IXyoMutableCharacteristic
     private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
@@ -34,8 +37,9 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         }
     }
 
-    constructor(pipeCharacteristic: IXyoMutableCharacteristic) {
+    constructor(pipeCharacteristic: IXyoMutableCharacteristic, server: IXyoBluetoothPeripheral) {
         this.pipeCharacteristic = pipeCharacteristic
+        this.server = server
         pipeCharacteristic.addListener("server_xyo_main", this.serverEndpoint)
     }
 
@@ -43,13 +47,19 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         delete this.deviceRouter[id]
     }
 
-    public find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> { 
-        return new Promise((resolve, reject) => {
+    public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> { 
+        await this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
+
+        const result = await new Promise((resolve, reject) => {
             this.onNewPipe = (pipe: IXyoNetworkPipe) => {
                 this.onNewPipe = undefined
                 resolve(pipe)
             }
-        })
+        }) as IXyoNetworkPipe
+
+        await this.server.stopAdvertising()
+
+        return result
     }
 
     private phraseFirstSend (buffer: Buffer): Buffer {

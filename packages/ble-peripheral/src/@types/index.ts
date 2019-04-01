@@ -35,3 +35,8 @@ export interface IXyoMutableService {
   uuid: string,
   characteristics: IXyoMutableCharacteristic[]
 }
+
+export interface IXyoBluetoothPeripheral {
+  startAdvertising: (adv: Buffer, scanResponse: Buffer) => Promise<void>
+  stopAdvertising: () => Promise<void>
+}
