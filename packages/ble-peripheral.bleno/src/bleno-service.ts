@@ -5,7 +5,7 @@ import { BlenoCharacteristic } from './bleno-characteristic';
 
 
 export class BlenoService implements IXyoMutableService {
-    private service: PrimaryService
+    public service: PrimaryService
 
     get uuid (): string {
         return this.service.uuid
