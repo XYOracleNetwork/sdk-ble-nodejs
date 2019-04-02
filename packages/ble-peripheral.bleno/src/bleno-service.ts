@@ -13,7 +13,6 @@ export class BlenoService implements IXyoMutableService {
 
     characteristics: IXyoMutableCharacteristic[] 
     
-
     constructor(uuid: string, characteristics: BlenoCharacteristic[] ) {
         const blenoChars = characteristics.map((item) => {
             return item.characteristic
