@@ -16,7 +16,7 @@ export class XyoAdvertisement {
         secondBuffer.writeInt16BE(this.minor, 2)
 
         // todo get rssi at 1m instead of fixed -50 
-        secondBuffer.writeInt8(-50, 5)
+        secondBuffer.writeInt8(-50, 4)
 
         return Buffer.concat([firstBuffer, secondBuffer])
     }
