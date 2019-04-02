@@ -2,8 +2,10 @@ import { IXyoMutableCharacteristic, IXyoMutableCharacteristicListener, IXyoPerip
 import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, CatalogueItem, IXyoNetworkPeer } from '@xyo-network/network';
 import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
+import { XyoLogger } from '@xyo-network/logger';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
+    private logger = new XyoLogger(false, false)
     private advData = new XyoAdvertisement(0, 0)
     private server: IXyoBluetoothPeripheral
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
@@ -11,13 +13,15 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
 
     private serverEndpoint: IXyoMutableCharacteristicListener = {
-        onWrite: (value: Buffer, device: IXyoPeripheral)  => {
-            const deviceKey = device.id
+        onWrite: async (value: Buffer): Promise<boolean> => {
+            // todo get device id here
+
+            const deviceKey = "0"
             const handler = this.deviceRouter[deviceKey]
 
             if (handler) {
                 handler.onWrite(value)
-                return
+                return true
             }
 
             const peer: IXyoNetworkPeer = {
@@ -34,6 +38,8 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
                 this.pipeCharacteristic,
                 this.closeHandler
             )
+
+            return true
         }
     }
 
@@ -44,13 +50,18 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     }
 
     private closeHandler = (id: string) => {
+        this.logger.info("Closing pipe")
         delete this.deviceRouter[id]
     }
 
     public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> { 
+        this.logger.info("Find start for server")
+
         await this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
 
         const result = await new Promise((resolve, reject) => {
+            this.logger.info("Waiting for pipe")
+
             this.onNewPipe = (pipe: IXyoNetworkPipe) => {
                 this.onNewPipe = undefined
                 resolve(pipe)
@@ -58,6 +69,8 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         }) as IXyoNetworkPipe
 
         await this.server.stopAdvertising()
+
+        this.logger.info("Returning pipe")
         return result
     }
 
@@ -66,6 +79,8 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     }
 
     public async stopServer(): Promise <void> {
+        this.logger.info("Stopping server")
+
         await this.server.stopAdvertising()
     }
 }

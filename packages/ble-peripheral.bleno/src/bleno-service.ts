@@ -1,16 +1,31 @@
-import { PrimaryService } from 'bleno'
+import { PrimaryService, Characteristic } from 'bleno'
+import { IXyoMutableCharacteristic } from '@xyo-network/ble-peripheral';
+import { IXyoBluetoothPeripheral, IXyoMutableDescriptor, IXyoMutableService } from '@xyo-network/ble-peripheral'
+import { BlenoCharacteristic } from './bleno-characteristic';
 
 
-export class BlenoService {
-    // uuid: string
+export class BlenoService implements IXyoMutableService {
+    private service: PrimaryService
+
+    get uuid (): string {
+        return this.service.uuid
+    }
+
+    characteristics: IXyoMutableCharacteristic[] 
     
 
-    constructor(service: PrimaryService) {
+    constructor(uuid: string, characteristics: BlenoCharacteristic[] ) {
+        const blenoChars = characteristics.map((item) => {
+            return item.characteristic
+        })
 
-        // bleno
-        // bleno.PrimaryService
-        
-        // this.uuid = service
+        const createdService: PrimaryService = {
+            uuid,
+            characteristics: blenoChars
+        }
+
+        this.service = createdService
+        this.characteristics = characteristics
     }
 
 }
