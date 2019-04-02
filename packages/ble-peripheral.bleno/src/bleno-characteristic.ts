@@ -88,17 +88,17 @@ export class BlenoCharacteristic implements IXyoMutableCharacteristic {
     }
 
 
-    private onSubscribe (maxValueSize: number, updateValueCallback: any) {
+    onSubscribe = (maxValueSize: number, updateValueCallback: any) => {
         this.logger.info("onSubscribe")
         this.notifyChangedCallback = updateValueCallback
     }
 
-    private onUnsubscribe () {
+    onUnsubscribe = () =>{
         this.logger.info("onUnsubscribe")
         this.notifyChangedCallback = undefined
     }
 
-    private async onWriteRequest(data: Buffer, offset: number, withoutResponse: boolean, callback: (result: number) => void) {
+    onWriteRequest = async (data: Buffer, offset: number, withoutResponse: boolean, callback: (result: number) => void) => {
         this.logger.info("onWriteRequest")
         for (const [_, value] of this.listenersMap) {
             const handle = value.onWrite
@@ -120,7 +120,7 @@ export class BlenoCharacteristic implements IXyoMutableCharacteristic {
         callback(Characteristic.RESULT_UNLIKELY_ERROR)
     }
 
-    private onReadRequest (offset: number, callback: (result: number, data?: Buffer) => void) {
+    onReadRequest = (offset: number, callback: (result: number, data?: Buffer) => void) => {
         this.logger.info("onReadRequest")
         for (const [_, value] of this.listenersMap) {
             const handle = value.onRead
