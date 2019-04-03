@@ -91,11 +91,27 @@ export class BlenoCharacteristic implements IXyoMutableCharacteristic {
     onSubscribe = (maxValueSize: number, updateValueCallback: any) => {
         this.logger.info("onSubscribe")
         this.notifyChangedCallback = updateValueCallback
+
+        for (const [_, value] of this.listenersMap) {
+            const callback = value.onSubscribe
+
+            if (callback) {
+                callback()
+            }
+        }
     }
 
     onUnsubscribe = () =>{
         this.logger.info("onUnsubscribe")
         this.notifyChangedCallback = undefined
+
+        for (const [_, value] of this.listenersMap) {
+            const callback = value.onUnsubscribe
+
+            if (callback) {
+                callback()
+            }
+        }
     }
 
     onWriteRequest = async (data: Buffer, offset: number, withoutResponse: boolean, callback: (result: number) => void) => {

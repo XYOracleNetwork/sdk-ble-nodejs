@@ -33,6 +33,8 @@ export interface IXyoMutableCharacteristicListener {
   // onWrite?: (value: Buffer, device: IXyoPeripheral) => Promise<boolean>
   // onRead?: (value: Buffer, device: IXyoPeripheral) => Promise<boolean>
 
+  onUnsubscribe?: () => void
+  onSubscribe?: () => void
   onWrite?: (value: Buffer) => Promise<boolean>
   onRead?: () => void
 }

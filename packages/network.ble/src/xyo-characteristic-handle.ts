@@ -93,6 +93,11 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     async close(): Promise<void> {
-        this.close()
+        const callback = this.onClose
+
+        if (callback) {
+            // todo get id of device
+            callback("0")
+        }
     }
 }

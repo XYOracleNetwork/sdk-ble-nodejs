@@ -5,6 +5,7 @@ import { XyoAdvertisement } from './data/xyo-advertisement';
 import { XyoLogger } from '@xyo-network/logger';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
+    private currentDeviceId: string = ""
     private logger = new XyoLogger(false, false)
     private advData = new XyoAdvertisement(0, 0)
     private server: IXyoBluetoothPeripheral
@@ -31,6 +32,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             }
 
             const firstSend = this.phraseFirstSend(value)
+            this.currentDeviceId = deviceKey
 
             this.deviceRouter[deviceKey] = new XyoCharacteristicHandle(
                 peer,
@@ -46,6 +48,10 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             }
 
             return true
+        },
+
+        onUnsubscribe: () => {
+            delete this.deviceRouter[this.currentDeviceId]
         }
     }
 
