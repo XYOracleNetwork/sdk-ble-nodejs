@@ -8,8 +8,16 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
     private logger = new XyoLogger(false, false)
     private server: XyoServerNetwork
     private client: XyoClientBluetoothNetwork
+    private serverHandle: (enable: boolean) => void
+    private clientHandle: (enable: boolean) => void
 
-  constructor(client: XyoClientBluetoothNetwork, server: XyoServerNetwork) {
+  constructor(client: XyoClientBluetoothNetwork,
+              server: XyoServerNetwork,
+              clientHandle: (enable: boolean) => void,
+              serverHandle: (enable: boolean) => void,) {
+  
+    this.clientHandle = clientHandle
+    this.serverHandle = serverHandle
     this.server = server
     this.client = client
   }
@@ -25,8 +33,12 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
         if (cycles != 0) {
           if (onServer) {
             this.client.stopServer()
+            this.clientHandle(false)
+            this.serverHandle(true)
           } else {
             this.server.stopServer()
+            this.clientHandle(true)
+            this.serverHandle(false)
           }
         }
 

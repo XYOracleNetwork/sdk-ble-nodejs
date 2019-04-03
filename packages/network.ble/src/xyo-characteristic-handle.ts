@@ -86,7 +86,6 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         if (awaitResponse != false) {
             this.logger.info(`Will receive`)
             return this.waitForWrite()
-            this.logger.info(`Did receive`)
         }
 
         return

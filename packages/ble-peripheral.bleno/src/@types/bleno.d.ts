@@ -119,6 +119,10 @@ declare module "bleno" {
 
         readonly state: State;
 
+        enable(): boolean
+
+        disable(): boolean
+
         disconnect(): void;
 
         setServices(services: ReadonlyArray<PrimaryService>, callback?: (arg: Error | undefined | null) => void): void;

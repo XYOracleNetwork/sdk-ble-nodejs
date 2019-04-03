@@ -9,7 +9,7 @@
   "dependencies": {
     "@xyo-network/ble-central": "^0.61.0",
     "@xyo-network/logger": "0.29.0",
-    "noble": "1.9.1"
+    "noble": "carterharrison/noble#master"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
