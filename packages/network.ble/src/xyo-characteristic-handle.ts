@@ -13,7 +13,6 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     private onClose: (id: string) => void
 
     peer: IXyoNetworkPeer
-    otherCatalogue: CatalogueItem[] | undefined
     initiationData: Buffer | undefined
     networkHeuristics: IXyoSerializableObject[]
 

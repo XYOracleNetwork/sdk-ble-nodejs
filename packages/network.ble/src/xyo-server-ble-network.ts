@@ -39,6 +39,12 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
                 this.closeHandler
             )
 
+            const callback = this.onNewPipe
+
+            if (callback) {
+                callback(this.deviceRouter[deviceKey])
+            }
+
             return true
         }
     }
