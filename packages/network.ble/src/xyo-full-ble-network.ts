@@ -39,7 +39,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
 
           onServer = !onServer
         } else {
-          this.server.find(catalogue).then((pipe) => {
+          this.client.find(catalogue).then((pipe) => {
             clearInterval(interval)
             resolve(pipe)
           })
