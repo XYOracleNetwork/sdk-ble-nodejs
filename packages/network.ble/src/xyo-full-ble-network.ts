@@ -15,16 +15,41 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   }
 
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
-      const serverJob = this.server.find(catalogue)
-      const clientJob = this.server.find(catalogue)
+    return new Promise((resolve, reject) => {
+      let onServer = false
+      let cycles = 0
 
-      const result = await Promise.race([serverJob, clientJob])
+      let interval: NodeJS.Timeout
 
-      this.stopServer().catch(() => {
-        this.logger.warn("Unknown error trying to stop client and server [ble]")
-      })
+      const tryLambda = () => {
+        if (cycles != 0) {
+          if (onServer) {
+            this.client.stopServer()
+          } else {
+            this.server.stopServer()
+          }
+        }
 
-      return result
+        cycles++
+        if (onServer) {
+          this.server.find(catalogue).then((pipe) => {
+            clearInterval(interval)
+            resolve(pipe)
+          })
+
+          onServer = !onServer
+        } else {
+          this.server.find(catalogue).then((pipe) => {
+            clearInterval(interval)
+            resolve(pipe)
+          })
+
+          onServer = !onServer
+        }  
+      }
+
+      interval = setInterval(tryLambda, 15000)
+    })
   }
 
   public async stopServer(): Promise <void> {
