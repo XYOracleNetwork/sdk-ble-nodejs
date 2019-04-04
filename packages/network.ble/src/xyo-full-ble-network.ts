@@ -40,7 +40,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
       this.serverHandle(false)
       this.clientHandle(true)
 
-      await this.delay(5000)
+      await this.delay(5_000)
 
       const pipeFromClient = await this.client.findWithTimeout(30_000)
 
@@ -53,7 +53,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
 
       this.clientHandle(false)
 
-      await this.delay(5000)
+      await this.delay(5_000)
     }
 
     throw new Error("Invalid state")

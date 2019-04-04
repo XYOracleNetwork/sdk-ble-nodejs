@@ -63,6 +63,8 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   }
 
   public findWithTimeout (timeoutInMills: number) : Promise<IXyoNetworkPipe | undefined> {
+    this.tryingDevice = false
+
     return new Promise((resolve, reject) => {
       this.scanner.startScan()
 
@@ -87,6 +89,8 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   }
 
   public find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
+    this.tryingDevice = false
+    
     return new Promise(async (resolve, reject) => {
       await this.scanner.startScan()
 
