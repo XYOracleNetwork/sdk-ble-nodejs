@@ -23,45 +23,31 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   }
 
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
-    return new Promise((resolve, reject) => {
-      let onServer = false
-      let cycles = 0
+    var found = false
 
-      let interval: NodeJS.Timeout
+    while (!found) {
+      this.serverHandle(true)
+      const pipeFromServer = await this.server.findWithTimeout(30_000)
 
-      const tryLambda = () => {
-        if (cycles != 0) {
-          if (onServer) {
-            this.client.stopServer()
-            this.clientHandle(false)
-            this.serverHandle(true)
-          } else {
-            this.server.stopServer()
-            this.clientHandle(true)
-            this.serverHandle(false)
-          }
-        }
-
-        cycles++
-        if (onServer) {
-          this.server.find(catalogue).then((pipe) => {
-            clearInterval(interval)
-            resolve(pipe)
-          })
-
-          onServer = !onServer
-        } else {
-          this.client.find(catalogue).then((pipe) => {
-            clearInterval(interval)
-            resolve(pipe)
-          })
-
-          onServer = !onServer
-        }  
+      if (pipeFromServer) {
+        found = true
+        return pipeFromServer
       }
 
-      interval = setInterval(tryLambda, 15000)
-    })
+      this.serverHandle(false)
+      this.clientHandle(true)
+
+      const pipeFromClient = await this.client.findWithTimeout(30_000)
+
+      if (pipeFromClient) {
+        found = true
+        return pipeFromClient
+      }
+
+      this.clientHandle(false)
+    }
+
+    throw new Error("Invalid state")
   }
 
   public async stopServer(): Promise <void> {

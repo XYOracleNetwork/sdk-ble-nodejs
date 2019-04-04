@@ -3,6 +3,8 @@ import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, Ca
 import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
 import { XyoLogger } from '@xyo-network/logger';
+import { rejects } from 'assert';
+import { XyoBase } from '@xyo-network/base';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
     private currentDeviceId: string = ""
@@ -64,6 +66,35 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     private closeHandler = (id: string) => {
         this.logger.info("Closing pipe")
         delete this.deviceRouter[id]
+    }
+
+    public async findWithTimeout (timeoutInMills: number): Promise <IXyoNetworkPipe | undefined> {  
+        return new Promise((resolve, reject) => {
+            var hasResumed = false
+            this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
+            this.logger.info("Find start for server")
+
+            const onTimeout = () => {
+                if (!hasResumed) {
+                    this.logger.info("Timeout for pipe")
+                    this.onNewPipe = undefined
+                    this.server.stopAdvertising()
+                    resolve(undefined)
+                }
+            }
+
+            XyoBase.timeout(onTimeout, timeoutInMills)
+
+            this.logger.info("Waiting for pipe")
+
+            this.onNewPipe = (pipe: IXyoNetworkPipe) => {
+                this.logger.info("Resuming with pipe")
+                hasResumed = true
+                this.onNewPipe = undefined
+                this.server.stopAdvertising()
+                resolve(pipe)
+            }
+        })
     }
 
     public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> { 

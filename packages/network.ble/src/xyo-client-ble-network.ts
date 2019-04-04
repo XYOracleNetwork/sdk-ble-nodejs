@@ -2,50 +2,100 @@ import { IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, IXyoNetworkPipe } f
 import { XyoNearbyDevices } from './devices/xyo-nearby-devices'
 import { IXyoScan } from "@xyo-network/ble-central"
 import { XyoPipeClient } from './devices/xyo-pipe-client'
+import { XyoBase } from '@xyo-network/base';
 
 export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   private scanner: IXyoScan
+  private tryingDevice = false
   private nearbyDevices: XyoPipeClient[] = []
+  private scanInterval : NodeJS.Timeout | undefined
   private nearby = new XyoNearbyDevices()
+  private onPipe : ((pipe: IXyoNetworkPipe) => void) | undefined
 
   constructor(scanner: IXyoScan) {
     this.scanner = scanner
   }
 
-  public find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
-    return new Promise(async (resolve, reject) => {
-      let tryingDevice = false
-      let timeout: NodeJS.Timeout | null = null
+  private scanLambda = () => {
+    const nearbyNow = this.scanner.getDevices()
+    this.nearbyDevices = this.nearby.nearby(nearbyNow)
 
-      await this.scanner.startScan()
+    if (!this.tryingDevice && this.nearbyDevices.length > 0) {
+      const randomDevice = this.nearbyDevices[Math.floor(Math.random() * this.nearbyDevices.length)]
+      this.tryingDevice = true
 
-      const scanLambda = () => {
-        const nearbyNow = this.scanner.getDevices()
-        this.nearbyDevices = this.nearby.nearby(nearbyNow)
+      randomDevice.tryCreatePipe().then((createdPipe) => {
+        if (this.scanInterval) {
+          clearInterval(this.scanInterval)
+        }
 
-        if (!tryingDevice && this.nearbyDevices.length > 0) {
-          const randomDevice = this.nearbyDevices[Math.floor(Math.random() * this.nearbyDevices.length)]
-          tryingDevice = true
+        if (createdPipe) {
+          this.scanner.stopScan()
+          this.resolveCallback(createdPipe)
+        } else {
+          this.tryingDevice = false
+        }
+      }).catch((e) => {
+        this.scanner.startScan()
+        this.tryingDevice = false
+      })
+    }
+  }
 
-          randomDevice.tryCreatePipe().then((createdPipe) => {
-            if (timeout) {
-              clearInterval(timeout)
-            }
+  private resolveCallback (pipe: IXyoNetworkPipe) {
+    const callback = this.onPipe
 
-            if (createdPipe) {
-              this.scanner.stopScan()
-              resolve(createdPipe)
-            } else {
-              tryingDevice = false
-            }
-          }).catch((e) => {
-            this.scanner.startScan()
-            tryingDevice = false
-          })
+    if (callback) {
+      callback(pipe)
+    }
+  }
+
+  private shutDown () {
+    const interval = this.scanInterval
+
+    if (interval) {
+      clearInterval(interval)
+      this.scanInterval = undefined
+    }
+
+    this.onPipe = undefined
+    this.scanner.stopScan()
+  }
+
+  public findWithTimeout (timeoutInMills: number) : Promise<IXyoNetworkPipe | undefined> {
+    return new Promise((resolve, reject) => {
+      this.scanner.startScan()
+
+      var hasResumed = false
+      const onTimeout = () => {
+        if (!hasResumed) {
+          this.shutDown()
+          resolve(undefined)
         }
       }
 
-      timeout = setInterval(scanLambda, 1000)
+      XyoBase.timeout(onTimeout, timeoutInMills)
+
+      this.onPipe = (pipe: IXyoNetworkPipe) => {
+        hasResumed = true
+        this.shutDown()
+        resolve(pipe)
+      }
+
+      this.scanInterval = setInterval(this.scanLambda, 1000)
+    })
+  }
+
+  public find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
+    return new Promise(async (resolve, reject) => {
+      await this.scanner.startScan()
+
+      this.onPipe = (pipe: IXyoNetworkPipe) => {
+        this.shutDown()
+        resolve(pipe)
+      }
+
+      this.scanInterval = setInterval(this.scanLambda, 1000)
     })
   }
 
