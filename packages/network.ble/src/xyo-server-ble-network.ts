@@ -69,7 +69,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     private serverListener: IXyoBluetoothPeripheralListener = {
         onConnect: () => {
-            delete this.deviceRouter[this.currentDeviceId]
+            // delete this.deviceRouter[this.currentDeviceId]
         },
 
         onDisconnect: () => {
