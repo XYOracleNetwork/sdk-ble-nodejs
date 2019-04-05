@@ -46,5 +46,13 @@ export interface IXyoMutableService {
 
 export interface IXyoBluetoothPeripheral {
   startAdvertising: (adv: Buffer, scanResponse: Buffer) => Promise<void>
-  stopAdvertising: () => Promise<void>
+  stopAdvertising: () => Promise<void> 
+  addListener: (key: string, listener: IXyoBluetoothPeripheralListener) => void,
+  removeListener: (key: string) => void
+}
+
+export interface IXyoBluetoothPeripheralListener {
+  // todo find way to get device ids
+  onConnect ?(): void,
+  onDisconnect ?(): void
 }

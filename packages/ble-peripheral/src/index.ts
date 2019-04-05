@@ -6,6 +6,7 @@ export {
     IXyoMutableService,
     IXyoMutableCharacteristicListener,
     IXyoPeripheral,
-    IXyoBluetoothPeripheral
+    IXyoBluetoothPeripheral,
+    IXyoBluetoothPeripheralListener
 } from './@types'
 

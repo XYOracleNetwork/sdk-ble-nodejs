@@ -1,4 +1,4 @@
-import { IXyoMutableCharacteristic, IXyoMutableCharacteristicListener, IXyoPeripheral, IXyoBluetoothPeripheral } from '@xyo-network/ble-peripheral'
+import { IXyoMutableCharacteristic, IXyoMutableCharacteristicListener, IXyoPeripheral, IXyoBluetoothPeripheral, IXyoBluetoothPeripheralListener } from '@xyo-network/ble-peripheral'
 import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, CatalogueItem, IXyoNetworkPeer } from '@xyo-network/network';
 import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
@@ -57,10 +57,21 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         }
     }
 
+    private serverListener: IXyoBluetoothPeripheralListener = {
+        onConnect: () => {
+            delete this.deviceRouter[this.currentDeviceId]
+        },
+
+        onDisconnect: () => {
+            delete this.deviceRouter[this.currentDeviceId]
+        }
+    }
+
     constructor(pipeCharacteristic: IXyoMutableCharacteristic, server: IXyoBluetoothPeripheral) {
         this.pipeCharacteristic = pipeCharacteristic
         this.server = server
         pipeCharacteristic.addListener("server_xyo_main", this.serverEndpoint)
+        this.server.addListener("server_xyo_main", this.serverListener)
     }
 
     private closeHandler = (id: string) => {

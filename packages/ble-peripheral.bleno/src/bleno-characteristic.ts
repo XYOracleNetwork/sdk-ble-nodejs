@@ -29,7 +29,7 @@ import { XyoLogger } from '@xyo-network/logger';
 
 export class BlenoCharacteristic implements IXyoMutableCharacteristic {
     private logger = new XyoLogger(false, false)
-    private listenersMap: Map<string, IXyoMutableCharacteristicListener> = new Map<string, IXyoMutableCharacteristicListener>();
+    private listenersMap = new Map<string, IXyoMutableCharacteristicListener>();
     private notifyChangedCallback : ((value: Buffer) => void) | undefined
     characteristic : Characteristic
     
