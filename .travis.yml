@@ -4,6 +4,7 @@ node_js:
 before_install:
   - npm install -g tsc
   - npm install -g typescript
+  - npm install -g lerna
 install: 
-  - yarn install
+  - lerna bootstrap
   - yarn build
