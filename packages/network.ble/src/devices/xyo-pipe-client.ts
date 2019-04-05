@@ -4,7 +4,7 @@ import { XyoLogger } from '@xyo-network/logger'
 import { IXyoSerializableObject } from '@xyo-network/serialization'
 import { rssiSerializationProvider } from '@xyo-network/heuristics-common'
 import { XyoBase } from '@xyo-network/base'
-import { chunk } from "../data/xyo-output-stream";
+import { chunkBytes } from "../data/xyo-output-stream";
 
 export class XyoPipeClient implements IXyoNetworkPipe {
   public networkHeuristics: IXyoSerializableObject[] = []
@@ -35,7 +35,6 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   public async tryCreatePipe (): Promise<null | IXyoNetworkPipe> {
     const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
       XyoBase.timeout(() => {
-        console.log("timeout")
         this.device.disconnect()
         reject("Timeout")
       }, 10000)
@@ -93,7 +92,6 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   public read (characteristic: IXyoCharacteristic): Promise<Buffer> {
     const timeout = new Promise((resolve, reject) => {
       XyoBase.timeout(() => {
-        console.log("timeout")
         reject("Timeout")
       }, 12000)
     }) as Promise<Buffer>
@@ -136,7 +134,7 @@ export class XyoPipeClient implements IXyoNetworkPipe {
 
     const action = new Promise(async (resolve, reject) => {
 
-      const chunksToSend = chunk(this.addBleSize(data), 20)
+      const chunksToSend = chunkBytes(this.addBleSize(data), 20)
       this.logger.info(`Sending entire: ${data.toString('hex')}`)
 
     // tslint:disable-next-line:prefer-for-of

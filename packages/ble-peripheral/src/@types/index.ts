@@ -20,7 +20,7 @@ export interface IXyoMutableDescriptor {
 export interface IXyoMutableCharacteristic  {
   uuid: string,
   permissions: XyoMutablePermissions[],
-  value: Buffer,
+  value: Buffer | undefined,
   descriptors?: IXyoMutableDescriptor[],
   notifyChanged: () => Promise<void>,
   addListener: (key: string, listener: IXyoMutableCharacteristicListener) => void,
@@ -28,10 +28,31 @@ export interface IXyoMutableCharacteristic  {
 }
 
 export interface IXyoMutableCharacteristicListener {
-  onWrite: (value: Buffer, device: IXyoPeripheral) => void
+
+  // todo find way to get device
+  // onWrite?: (value: Buffer, device: IXyoPeripheral) => Promise<boolean>
+  // onRead?: (value: Buffer, device: IXyoPeripheral) => Promise<boolean>
+
+  onUnsubscribe?: () => void
+  onSubscribe?: () => void
+  onWrite?: (value: Buffer) => Promise<boolean>
+  onRead?: () => void
 }
 
 export interface IXyoMutableService {
   uuid: string,
   characteristics: IXyoMutableCharacteristic[]
+}
+
+export interface IXyoBluetoothPeripheral {
+  startAdvertising: (adv: Buffer, scanResponse: Buffer) => Promise<void>
+  stopAdvertising: () => Promise<void> 
+  addListener: (key: string, listener: IXyoBluetoothPeripheralListener) => void,
+  removeListener: (key: string) => void
+}
+
+export interface IXyoBluetoothPeripheralListener {
+  // todo find way to get device ids
+  onConnect ?(): void,
+  onDisconnect ?(): void
 }

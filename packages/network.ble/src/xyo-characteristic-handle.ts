@@ -3,18 +3,26 @@ import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, Ca
 import { IXyoSerializableObject } from '@xyo-network/serialization';
 import { XyoInputStream } from './data/xyo-input-stream';
 import { chunkBytes } from './data/xyo-output-stream'
+import { XyoLogger } from '@xyo-network/logger';
 
 export class XyoCharacteristicHandle implements IXyoNetworkPipe {
+    private logger: XyoLogger = new XyoLogger(false, false)
     private characteristic: IXyoMutableCharacteristic
     private packetCompleteCallback: ((packet: Buffer) => void) | undefined
     private inputStream: XyoInputStream = new XyoInputStream()
+    private onClose: (id: string) => void
 
     peer: IXyoNetworkPeer
-    otherCatalogue: CatalogueItem[] | undefined
     initiationData: Buffer | undefined
     networkHeuristics: IXyoSerializableObject[]
 
-    constructor (peer: IXyoNetworkPeer, initiationData: Buffer, characteristic: IXyoMutableCharacteristic) {
+    constructor (
+        peer: IXyoNetworkPeer, 
+        initiationData: Buffer,
+        characteristic: IXyoMutableCharacteristic,
+        onClose: (id: string) => void ) {
+
+        this.onClose = onClose
         this.networkHeuristics = []
         this.peer = peer
         this.initiationData = initiationData
@@ -22,6 +30,8 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     public onWrite (value: Buffer) {
+        this.logger.info(`Handler received write: ${value.toString("hex")}`)
+
         this.inputStream.addChunk(value)
 
         const newPacket = this.inputStream.getOldestPacket()
@@ -33,6 +43,7 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     private async chunkSend (data: Buffer) {
+        this.logger.info(`Chunk send for server, entire: ${data.toString("hex")}`)
         // todo add timeout
 
         const sizeBuffer = Buffer.alloc(4)
@@ -43,6 +54,7 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         const chunksToSend = chunkBytes(sizeEncodedBuffer, 20) 
 
         for (const chunk of chunksToSend) {
+            this.logger.info(`Sending chunk: ${chunk.toString("hex")}`)
             this.characteristic.value = chunk
             await this.characteristic.notifyChanged()
         }
@@ -50,9 +62,12 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
 
     private async waitForWrite () : Promise<Buffer | undefined> {
         // todo add timeout
+        this.logger.info(`Waiting for write`)
     
         return new Promise((resolve, reject) => {
             this.packetCompleteCallback = (value: Buffer) => {
+                this.logger.info(`PacketCompleteCallback resolved`)
+
                 this.packetCompleteCallback = undefined
                 resolve(value)
             }
@@ -64,9 +79,12 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     async send (data: Buffer, awaitResponse?: boolean): Promise<Buffer | undefined> {
+        this.logger.info(`Will chunk send`)
         await this.chunkSend(data)
+        this.logger.info(`Done chunk send`)
 
         if (awaitResponse != false) {
+            this.logger.info(`Will receive`)
             return this.waitForWrite()
         }
 
@@ -74,6 +92,11 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     }
 
     async close(): Promise<void> {
+        const callback = this.onClose
 
+        if (callback) {
+            // todo get id of device
+            callback("0")
+        }
     }
 }
