@@ -3,17 +3,27 @@ import { IXyoNetworkPipe, IXyoNetworkProvider, IXyoNetworkProcedureCatalogue, Ca
 import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
 import { XyoLogger } from '@xyo-network/logger';
-import { rejects } from 'assert';
 import { XyoBase } from '@xyo-network/base';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
+    private advertisementId = 0x03
     private currentDeviceId: string = ""
     private logger = new XyoLogger(false, false)
-    private advData = new XyoAdvertisement(0, 0)
+    private advData = new XyoAdvertisement(this.getMajor(), this.getMinor())
     private server: IXyoBluetoothPeripheral
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
     private pipeCharacteristic: IXyoMutableCharacteristic
     private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
+
+    private getMajor () : number {
+        const randomBase =  Math.floor(Math.random() * 65534)
+        const randomBaseWithMask = randomBase & 0b1111_1111_1100_00000
+        return randomBaseWithMask | this.advertisementId
+    }
+
+    private getMinor () : number {
+        return 0
+    }
 
     private serverEndpoint: IXyoMutableCharacteristicListener = {
         onWrite: async (value: Buffer): Promise<boolean> => {
