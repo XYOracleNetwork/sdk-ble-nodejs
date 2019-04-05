@@ -7,5 +7,5 @@ before_install:
   - npm install -g lerna
 install: 
   - yarn install
-  - lerna bootstrap
+  - lerna bootstrap --ci
   - yarn build
