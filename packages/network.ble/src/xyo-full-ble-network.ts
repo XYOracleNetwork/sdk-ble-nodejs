@@ -9,6 +9,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
     private logger = new XyoLogger(false, false)
     private server: XyoServerNetwork
     private client: XyoClientBluetoothNetwork
+    private resumedOnServer = true
     private serverHandle: (enable: boolean) => void
     private clientHandle: (enable: boolean) => void
 
@@ -26,14 +27,17 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
     var found = false
 
+    if (!this.resumedOnServer) {
+      this.clientHandle(false)
+    }
+
     while (!found) {
       this.serverHandle(true)
       const pipeFromServer = await this.server.findWithTimeout(30_000)
 
       if (pipeFromServer) {
         found = true
-        this.clientHandle(false)
-        this.serverHandle(false)
+        this.resumedOnServer = true
         return pipeFromServer
       }
 
@@ -46,8 +50,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
 
       if (pipeFromClient) {
         found = true
-        this.clientHandle(false)
-        this.serverHandle(false)
+        this.resumedOnServer = false
         return pipeFromClient
       }
 

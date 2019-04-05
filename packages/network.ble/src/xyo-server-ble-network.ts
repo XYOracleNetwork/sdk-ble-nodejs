@@ -74,11 +74,11 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
             this.logger.info("Find start for server")
 
-            const onTimeout = () => {
+            const onTimeout = async () => {
                 if (!hasResumed) {
                     this.logger.info("Timeout for pipe")
                     this.onNewPipe = undefined
-                    this.server.stopAdvertising()
+                    await this.server.stopAdvertising()
                     resolve(undefined)
                 }
             }
@@ -87,11 +87,11 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
             this.logger.info("Waiting for pipe")
 
-            this.onNewPipe = (pipe: IXyoNetworkPipe) => {
+            this.onNewPipe = async (pipe: IXyoNetworkPipe) => {
                 this.logger.info("Resuming with pipe")
                 hasResumed = true
                 this.onNewPipe = undefined
-                this.server.stopAdvertising()
+                await this.server.stopAdvertising()
                 resolve(pipe)
             }
         })
