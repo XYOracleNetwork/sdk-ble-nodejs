@@ -1,5 +1,5 @@
 
-declare module "noble" { 
+declare module "@xyo-network/noble" { 
     import events = require("events");
 
     export function startScanning(callback?: (error?: Error) => void): void;
