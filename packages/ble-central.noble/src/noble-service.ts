@@ -51,7 +51,6 @@ export class NobleService implements IXyoService {
           resolve(returnArray)
         } else {
           this.logger.error(`Error discovering characteristics for service with uuid: ${this.service.uuid}`)
-
           reject(error)
         }
       })
