@@ -59,7 +59,7 @@ Bleno.prototype.PrimaryService = PrimaryService;
 Bleno.prototype.Characteristic = Characteristic;
 Bleno.prototype.Descriptor = Descriptor;
 
-Bleno.prototype.enable () = function () {
+Bleno.prototype.enable = function () {
   if (this._bindings.start) {
     this._bindings.start()
     return true
@@ -68,7 +68,7 @@ Bleno.prototype.enable () = function () {
   return false
 }
 
-Bleno.prototype.stop () = function () {
+Bleno.prototype.disable = function () {
   if (this._bindings.stop) {
     this._bindings.stop()
     return true
