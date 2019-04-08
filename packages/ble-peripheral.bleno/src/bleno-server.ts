@@ -1,4 +1,4 @@
-import bleno from 'bleno' 
+import bleno from '@xyo-network/bleno' 
 import { IXyoBluetoothPeripheral, IXyoBluetoothPeripheralListener } from '@xyo-network/ble-peripheral'
 import { XyoLogger } from '@xyo-network/logger'
 

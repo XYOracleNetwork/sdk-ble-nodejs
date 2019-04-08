@@ -5,7 +5,7 @@
 
 /// <reference types="node" />
 
-declare module "bleno" {
+declare module "@xyo-network/bleno" {
     export type State = 'poweredOn' | 'poweredOff' | 'unauthorized' | 'unsupported' | 'unknown' | 'resetting';
 
     export type Property = 'read' | 'write' | 'indicate' | 'notify' | 'writeWithoutResponse';

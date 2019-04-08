@@ -8,8 +8,8 @@
   "license": "MIT",
   "dependencies": {
     "@xyo-network/ble-central": "^0.71.0",
-    "@xyo-network/logger": "0.29.0",
-    "noble": "carterharrison/noble#master"
+    "@xyo-network/noble": "^0.71.0",
+    "@xyo-network/logger": "0.29.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
