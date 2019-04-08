@@ -40,9 +40,9 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.4.tgz#1c586b991457cbb58fef51bc4e0cfcfa347714b5"
   integrity sha512-DT25xX/YgyPKiHFOpNuANIQIVvYEwCWXgK2jYYwqgaMrYE6+tq+DtmMwlD3drl6DJbUwtlIDnn0d7tIn/EbXBg==
 
-"@xyo-network/ble-peripheral@^0.52.0":
-  version "0.52.0"
-  resolved "https://registry.yarnpkg.com/@xyo-network/ble-peripheral/-/ble-peripheral-0.52.0.tgz#8a080c41300b484b68f39dcb07e1837341f391e5"
+"@xyo-network/ble-peripheral@^0.53.0":
+  version "0.53.0"
+  resolved "https://registry.yarnpkg.com/@xyo-network/ble-peripheral/-/ble-peripheral-0.53.0.tgz#8a080c41300b484b68f39dcb07e1837341f391e5"
   integrity sha512-ASkDvNgEHupdlu8fTM0DjwdEk0AgpnBrsDwk09kEifmyFai8GUcZ+zMhVJLev0cYbdoht/32TnMD9Cxhdkn4qQ==
   dependencies:
     i "^0.3.6"
