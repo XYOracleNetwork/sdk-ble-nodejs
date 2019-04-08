@@ -1,13 +1,13 @@
 {
   "name": "@xyo-network/ble-peripheral.bleno",
-  "version": "0.70.0",
+  "version": "0.71.0",
   "description": "BLE implementation for bleno",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Carter Harrison",
   "license": "MIT",
   "dependencies": {
-    "@xyo-network/ble-peripheral": "^0.70.0",
+    "@xyo-network/ble-peripheral": "^0.71.0",
     "@xyo-network/logger": "0.29.0",
     "bleno": "carterharrison/bleno#master"
   },
