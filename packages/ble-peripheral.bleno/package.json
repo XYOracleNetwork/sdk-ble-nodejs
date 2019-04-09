@@ -3,7 +3,7 @@
   "version": "0.79.0",
   "description": "BLE implementation for bleno",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "./index.d.ts",
   "author": "Carter Harrison",
   "license": "MIT",
   "dependencies": {
