@@ -33,6 +33,7 @@
     "Jacob Rosenthal"
   ],
   "license": "MIT",
+  "types": "./index.d.ts",
   "readmeFilename": "README.md",
   "devDependencies": {
     "jshint": "~2.9.4",
