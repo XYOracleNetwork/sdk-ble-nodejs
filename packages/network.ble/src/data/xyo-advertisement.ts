@@ -28,12 +28,15 @@ export class XyoAdvertisement {
     public getScanResponse (): Buffer {
         let uuid = "11073E59C598532D98BC4E4836DF"
         const majorBuff = Buffer.alloc(2)
-        majorBuff.writeInt16BE(this.major, 0)
+        majorBuff.writeUInt16BE(this.major, 0)
         const minorBuff = Buffer.alloc(2)
-        majorBuff.writeInt16BE(this.major, 0)
+        majorBuff.writeUInt16BE(this.major, 0)
 
-        uuid = uuid + majorBuff.toString("hex")[1] + majorBuff.toString("hex")[0]
-        uuid = uuid + minorBuff.toString("hex")[1] + minorBuff.toString("hex")[0]
+        const majorBuffString = majorBuff.toString("hex")
+        const minorBuffString = minorBuff.toString("hex")
+
+        uuid = uuid + majorBuffString[2] + majorBuffString[3] + majorBuffString[0] + majorBuffString[1]
+        uuid = uuid + minorBuffString[2] + minorBuffString[3] + minorBuffString[0] + minorBuffString[1]
 
         return Buffer.from(
             uuid.toUpperCase(),

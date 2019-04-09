@@ -119,7 +119,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             this.logger.info("Find start for server")
 
             const onTimeout = async () => {
-                if (!hasResumed && !this.unPause) {
+                if (!hasResumed && !this.isPaused) {
                     this.logger.info("Timeout or resume for pipe")
                     hasResumed = true
                     this.onNewPipe = undefined
