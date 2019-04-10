@@ -30,7 +30,7 @@ export class XyoAdvertisement {
         const majorBuff = Buffer.alloc(2)
         majorBuff.writeUInt16BE(this.major, 0)
         const minorBuff = Buffer.alloc(2)
-        majorBuff.writeUInt16BE(this.major, 0)
+        minorBuff.writeUInt16BE(this.minor, 0)
 
         const majorBuffString = majorBuff.toString("hex")
         const minorBuffString = minorBuff.toString("hex")
