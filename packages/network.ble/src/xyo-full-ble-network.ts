@@ -25,7 +25,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   }
 
   private getRandomInterval (): number {
-    return 20_000 + (Math.random() * 30_000)
+    return 30_000 + (Math.random() * 30_000)
   }
 
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
@@ -36,6 +36,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
     }
 
     while (!found) {
+      await this.delay(5_000)
       this.serverHandle(true)
       const pipeFromServer = await this.server.findWithTimeout(this.getRandomInterval())
 
@@ -50,7 +51,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
 
       await this.delay(5_000)
 
-      const pipeFromClient = await this.client.findWithTimeout(this.getRandomInterval())
+      const pipeFromClient = await this.client.findWithTimeout(this.getRandomInterval() / 2)
 
       if (pipeFromClient) {
         found = true
@@ -59,8 +60,6 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
       }
 
       this.clientHandle(false)
-
-      await this.delay(5_000)
     }
 
     throw new Error("Invalid state")
