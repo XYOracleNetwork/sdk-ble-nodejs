@@ -68,7 +68,7 @@ export class XyoPipeClient implements IXyoNetworkPipe {
       reject("No XYO service")
     })
 
-    return Promise.race([promise, timeout])
+    return await Promise.race([promise, timeout])
   }
 
   public async send (data: Buffer, awaitResponse?: boolean): Promise<Buffer | undefined> {

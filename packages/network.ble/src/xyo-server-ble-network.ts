@@ -114,9 +114,6 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     public async findWithTimeout (timeoutInMills: number): Promise <IXyoNetworkPipe | undefined> {  
         return new Promise((resolve, reject) => {
             var hasResumed = false
-            this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
-            this.isAdvertising = true
-            this.logger.info("Find start for server")
 
             const onTimeout = async () => {
                 if (!hasResumed && !this.isPaused) {
@@ -134,22 +131,29 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             }
 
             XyoBase.timeout(onTimeout, timeoutInMills)
-            this.onResume = onTimeout
+           
 
-            this.logger.info("Waiting for pipe")
+            this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse()).then(() => {
+                this.isAdvertising = true
+                this.logger.info("Find start for server")
 
-            this.onNewPipe = async (pipe: IXyoNetworkPipe) => {
-                this.logger.info("Resuming with pipe")
-                hasResumed = true
-                this.onNewPipe = undefined
+                this.onResume = onTimeout
+        
+                this.logger.info("Waiting for pipe")
 
-                if (this.isAdvertising) {
-                    await this.server.stopAdvertising()
-                    this.isAdvertising = false
+                this.onNewPipe = async (pipe: IXyoNetworkPipe) => {
+                    this.logger.info("Resuming with pipe")
+                    hasResumed = true
+                    this.onNewPipe = undefined
+
+                    if (this.isAdvertising) {
+                        await this.server.stopAdvertising()
+                        this.isAdvertising = false
+                    }
+
+                    resolve(pipe)
                 }
-
-                resolve(pipe)
-            }
+            })
         })
     }
 
