@@ -25,7 +25,7 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   }
 
   private getRandomInterval (): number {
-    return 30_000 + (Math.random() * 30_000)
+    return 20_000 + (Math.random() * 30_000)
   }
 
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
