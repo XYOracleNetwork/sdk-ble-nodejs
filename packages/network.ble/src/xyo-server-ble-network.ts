@@ -98,8 +98,8 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         delete this.deviceRouter[id]
     }
 
-    public pause () {
-        this.server.stopAdvertising()
+    public async pause () {
+        await this.server.stopAdvertising()
         this.isAdvertising = false
         this.isPaused = true
     }

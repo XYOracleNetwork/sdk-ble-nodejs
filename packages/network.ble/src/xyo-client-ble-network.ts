@@ -25,19 +25,19 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
       const randomDevice = this.nearbyDevices[Math.floor(Math.random() * this.nearbyDevices.length)]
       this.tryingDevice = true
 
-      randomDevice.tryCreatePipe().then((createdPipe) => {
+      randomDevice.tryCreatePipe().then(async (createdPipe) => {
         if (this.scanInterval) {
           clearInterval(this.scanInterval)
         }
 
         if (createdPipe) {
-          this.scanner.stopScan()
+          await this.scanner.stopScan()
           this.resolveCallback(createdPipe)
         } else {
           this.tryingDevice = false
         }
-      }).catch((e) => {
-        this.scanner.startScan()
+      }).catch(async (e) => {
+        await this.scanner.startScan()
         this.tryingDevice = false
       })
     }
@@ -69,18 +69,18 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     return new Promise((resolve, reject) => {
       this.scanner.startScan().then(() => {
         var hasResumed = false
-        const onTimeout = () => {
+        const onTimeout = async () => {
           if (!hasResumed) {
-            this.shutDown()
+            await this.shutDown()
             resolve(undefined)
           }
         }
 
         XyoBase.timeout(onTimeout, timeoutInMills)
 
-        this.onPipe = (pipe: IXyoNetworkPipe) => {
+        this.onPipe = async (pipe: IXyoNetworkPipe) => {
           hasResumed = true
-          this.shutDown()
+          await this.shutDown()
           resolve(pipe)
         }
 
