@@ -9,20 +9,13 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     private onResume: (() => void) | undefined
     private isAdvertising = false
     private isPaused = false
-    private advertisementId = 0x03
     private currentDeviceId: string = ""
     private logger = new XyoLogger(false, false)
-    private advData = new XyoAdvertisement(this.getMajor(), this.getMinor())
+    private advData = new XyoAdvertisement(this.getMinor())
     private server: IXyoBluetoothPeripheral
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
     private pipeCharacteristic: IXyoMutableCharacteristic
     private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
-
-    private getMajor () : number {
-        const randomBase =  Math.floor(Math.random() * 65534)
-        const randomBaseWithMask = randomBase & 0b1111_1111_1100_00000
-        return randomBaseWithMask | this.advertisementId
-    }
 
     private getMinor () : number {
         return 0

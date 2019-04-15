@@ -3,7 +3,6 @@ import { XyoNearbyDevices } from './devices/xyo-nearby-devices'
 import { IXyoScan } from "@xyo-network/ble-central"
 import { XyoPipeClient } from './devices/xyo-pipe-client'
 import { XyoBase } from '@xyo-network/base';
-import { resolve } from 'dns';
 
 export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   private scanner: IXyoScan

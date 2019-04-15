@@ -1,10 +1,19 @@
 
 export class XyoAdvertisement {
+
+    private advertisementId = 0x03
+
+    private getMajor () : number {
+        const randomBase =  Math.floor(Math.random() * 65534)
+        const randomBaseWithMask = randomBase & 0b1111_1111_1100_00000
+        return randomBaseWithMask | this.advertisementId
+    }
+
     public major: number
     public minor: number
 
-    constructor(major: number, minor: number) {
-        this.major = major
+    constructor(minor: number) {
+        this.major = this.getMajor()
         this.minor = minor
     }
 
@@ -21,8 +30,6 @@ export class XyoAdvertisement {
 
         return Buffer.concat([firstBuffer, secondBuffer])
     }
-
-    
 
     // "11073E59C598532D98BC4E4836DF 2E 35 84 D6"
     public getScanResponse (): Buffer {
