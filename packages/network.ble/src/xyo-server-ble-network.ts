@@ -4,7 +4,6 @@ import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
 import { XyoLogger } from '@xyo-network/logger';
 import { XyoBase } from '@xyo-network/base';
-import bleno = require('bleno');
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
     private onResume: (() => void) | undefined
@@ -72,7 +71,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
         onUnsubscribe: () => {
             delete this.deviceRouter[this.currentDeviceId]
-            bleno.disconnect()
+            this.server.disconnect()
         }
     }
 
@@ -95,7 +94,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     private closeHandler = (id: string) => {
         this.logger.info("Closing pipe")
-        bleno.disconnect()
+        this.server.disconnect()
         delete this.deviceRouter[id]
     }
 
@@ -110,7 +109,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
         const callback = this.onResume
         if (callback) {
-            bleno.disconnect()
+            this.server.disconnect()
             callback()
         }
     }
