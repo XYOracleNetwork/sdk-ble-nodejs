@@ -140,10 +140,10 @@ BlenoBindings.prototype.onAdvertisingStop = function() {
 };
 
 BlenoBindings.prototype.onLeConnComplete = function(status, handle, role, addressType, address, interval, latency, supervisionTimeout, masterClockAccuracy) {
-  if (role !== 1) {
-    // not slave, ignore
-    return;
-  }
+  // if (role !== 1) {
+  //   // not slave, ignore
+  //   return;
+  // }
 
   this._address = address;
   this._handle = handle;
