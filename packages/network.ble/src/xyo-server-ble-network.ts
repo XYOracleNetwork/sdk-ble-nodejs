@@ -4,6 +4,7 @@ import { XyoCharacteristicHandle } from './xyo-characteristic-handle'
 import { XyoAdvertisement } from './data/xyo-advertisement';
 import { XyoLogger } from '@xyo-network/logger';
 import { XyoBase } from '@xyo-network/base';
+import bleno = require('bleno');
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
     private onResume: (() => void) | undefined
@@ -71,6 +72,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
         onUnsubscribe: () => {
             delete this.deviceRouter[this.currentDeviceId]
+            bleno.disconnect()
         }
     }
 
@@ -93,6 +95,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     private closeHandler = (id: string) => {
         this.logger.info("Closing pipe")
+        bleno.disconnect()
         delete this.deviceRouter[id]
     }
 
@@ -107,6 +110,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
         const callback = this.onResume
         if (callback) {
+            bleno.disconnect()
             callback()
         }
     }
@@ -131,13 +135,11 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
             }
 
             XyoBase.timeout(onTimeout, timeoutInMills)
-           
+            this.onResume = onTimeout
 
             this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse()).then(() => {
                 this.isAdvertising = true
                 this.logger.info("Find start for server")
-
-                this.onResume = onTimeout
         
                 this.logger.info("Waiting for pipe")
 
@@ -185,7 +187,6 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     public async stopServer(): Promise <void> {
         this.logger.info("Stopping server")
-
         this.isAdvertising = false
         await this.server.stopAdvertising()
     }

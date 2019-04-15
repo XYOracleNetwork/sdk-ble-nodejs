@@ -36,7 +36,10 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
                 reject(`Invalid state: ${bleno.state}`)
             }
         })
-        
+    }
+
+    public async disconnect () {
+        bleno.disconnect()
     }
 
     onConnect = () => {
