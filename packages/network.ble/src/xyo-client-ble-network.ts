@@ -3,6 +3,7 @@ import { XyoNearbyDevices } from './devices/xyo-nearby-devices'
 import { IXyoScan } from "@xyo-network/ble-central"
 import { XyoPipeClient } from './devices/xyo-pipe-client'
 import { XyoBase } from '@xyo-network/base';
+import { resolve } from 'dns';
 
 export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   private scanner: IXyoScan
@@ -50,7 +51,7 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     }
   }
 
-  private shutDown () {
+  private async shutDown () {
     const interval = this.scanInterval
 
     if (interval) {
@@ -59,32 +60,34 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     }
 
     this.onPipe = undefined
-    this.scanner.stopScan()
+    await this.scanner.stopScan()
   }
 
   public findWithTimeout (timeoutInMills: number) : Promise<IXyoNetworkPipe | undefined> {
     this.tryingDevice = false
 
     return new Promise((resolve, reject) => {
-      this.scanner.startScan()
-
-      var hasResumed = false
-      const onTimeout = () => {
-        if (!hasResumed) {
-          this.shutDown()
-          resolve(undefined)
+      this.scanner.startScan().then(() => {
+        var hasResumed = false
+        const onTimeout = () => {
+          if (!hasResumed) {
+            this.shutDown()
+            resolve(undefined)
+          }
         }
-      }
 
-      XyoBase.timeout(onTimeout, timeoutInMills)
+        XyoBase.timeout(onTimeout, timeoutInMills)
 
-      this.onPipe = (pipe: IXyoNetworkPipe) => {
-        hasResumed = true
-        this.shutDown()
-        resolve(pipe)
-      }
+        this.onPipe = (pipe: IXyoNetworkPipe) => {
+          hasResumed = true
+          this.shutDown()
+          resolve(pipe)
+        }
 
-      this.scanInterval = setInterval(this.scanLambda, 1000)
+        this.scanInterval = setInterval(this.scanLambda, 1000)
+      }).catch(() => {
+        resolve()
+      })
     })
   }
 

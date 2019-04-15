@@ -118,25 +118,25 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         return new Promise((resolve, reject) => {
             var hasResumed = false
 
-            const onTimeout = async () => {
-                if (!hasResumed && !this.isPaused) {
-                    this.logger.info("Timeout or resume for pipe")
-                    hasResumed = true
-                    this.onNewPipe = undefined
-
-                    if (this.isAdvertising) {
-                        await this.server.stopAdvertising()
-                        this.isAdvertising = false
-                    }
-                    
-                    resolve(undefined)
-                }
-            }
-
-            XyoBase.timeout(onTimeout, timeoutInMills)
-            this.onResume = onTimeout
-
             this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse()).then(() => {
+                const onTimeout = async () => {
+                    if (!hasResumed && !this.isPaused) {
+                        this.logger.info("Timeout or resume for pipe")
+                        hasResumed = true
+                        this.onNewPipe = undefined
+    
+                        if (this.isAdvertising) {
+                            await this.server.stopAdvertising()
+                            this.isAdvertising = false
+                        }
+                        
+                        resolve(undefined)
+                    }
+                }
+    
+                XyoBase.timeout(onTimeout, timeoutInMills)
+                this.onResume = onTimeout
+
                 this.isAdvertising = true
                 this.logger.info("Find start for server")
         
@@ -154,6 +154,8 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
                     resolve(pipe)
                 }
+            }).catch(() => {
+                resolve()
             })
         })
     }
