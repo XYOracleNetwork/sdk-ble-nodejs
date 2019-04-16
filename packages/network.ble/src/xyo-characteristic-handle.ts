@@ -67,8 +67,8 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         for (const chunk of chunksToSend) {
             this.logger.info(`Sending chunk: ${chunk.toString("hex")}`)
             this.characteristic.value = chunk
+            await this.delay(200)
             await this.characteristic.notifyChanged()
-            await this.delay(250)
         }
     }
 
@@ -121,6 +121,8 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         const callback = this.onClose
 
         if (callback) {
+            // todo, find a wait to get await notifaction so we do not have this delay
+            await this.delay(500)
             // todo get id of device
             callback("0")
         }
