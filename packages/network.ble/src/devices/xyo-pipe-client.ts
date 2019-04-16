@@ -33,14 +33,14 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   }
 
   public async tryCreatePipe (): Promise<null | IXyoNetworkPipe> {
-    const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
-      XyoBase.timeout(() => {
-        this.device.disconnect()
-        reject("Timeout")
-      }, 10000)
-    })
+    // const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
+    //   XyoBase.timeout(() => {
+    //     this.device.disconnect()
+    //     reject("Timeout")
+    //   }, 10000)
+    // })
 
-    const promise = new Promise<null | IXyoNetworkPipe>(async (resolve, reject) => {
+    return new Promise<null | IXyoNetworkPipe>(async (resolve, reject) => {
       try {
         if (this.device.state !== 'connected') {
           await this.device.connect()
@@ -60,19 +60,25 @@ export class XyoPipeClient implements IXyoNetworkPipe {
             await xyoPipeChar[0].subscribe()
             this.networkHeuristics = [rssiSerializationProvider.newInstance(this.device.rssi)]
             resolve(this)
+            return
           }
   
+          await this.device.disconnect()
           reject("No XYO pipe characteristic 1")
+          return
         }
 
+        await this.device.disconnect()
         reject("No XYO service")
       } catch (error) {
         // timeout if here
+
+        await this.device.disconnect()
         reject("Timeout error caught")
       }
     })
 
-    return await Promise.race([promise, timeout])
+    // return await Promise.race([promise, timeout])
   }
 
   public async send (data: Buffer, awaitResponse?: boolean): Promise<Buffer | undefined> {
