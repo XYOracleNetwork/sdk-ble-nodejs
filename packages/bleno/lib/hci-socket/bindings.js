@@ -30,6 +30,7 @@ BlenoBindings.prototype.start = function () {
 }
 
 BlenoBindings.prototype.stop = function () {
+  this.onExit()
   this._hci.stop()
 }
 

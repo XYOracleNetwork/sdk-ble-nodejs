@@ -38,6 +38,7 @@ NobleBindings.prototype.start = function () {
 
 NobleBindings.prototype.stop = function () {
   // insert other logic here for shutting down
+  this.onExit()
   this._hci.stop()
 }
 
