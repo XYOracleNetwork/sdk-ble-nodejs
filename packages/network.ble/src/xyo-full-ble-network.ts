@@ -47,9 +47,9 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
       }
 
       this.serverHandle(false)
+      await this.delay(2_500)
       this.clientHandle(true)
-
-      await this.delay(5_000)
+      await this.delay(2_500)
 
       const pipeFromClient = await this.client.findWithTimeout(this.getRandomInterval() / 2)
 
