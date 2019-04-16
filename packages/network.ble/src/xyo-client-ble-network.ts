@@ -36,7 +36,6 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
           this.tryingDevice = false
         }
       }).catch(async (e) => {
-        await this.scanner.startScan()
         this.tryingDevice = false
       })
     }
