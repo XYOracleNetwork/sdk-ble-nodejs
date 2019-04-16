@@ -142,6 +142,5 @@ declare module "@xyo-network/bleno" {
         on(event: 'rssiUpdate', cb: (rssi: number) => void): this;
     }
 
-    const bleno: Bleno;
-    export default bleno;
+    export default Bleno;
 }

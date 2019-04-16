@@ -40,16 +40,6 @@ NobleBindings.prototype.stop = function () {
   // insert other logic here for shutting down
   this.onExit()
   this._hci.stop()
-
-  this._addresses = {};
-  this._addresseTypes = {};
-  this._connectable = {};
-  this._pendingConnectionUuid = null;
-  this._connectionQueue = [];
-  this._handles = {};
-  this._gatts = {};
-  this._aclStreams = {};
-  this._signalings = {};
 }
 
 

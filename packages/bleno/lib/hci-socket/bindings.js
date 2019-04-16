@@ -31,12 +31,9 @@ BlenoBindings.prototype.start = function () {
 
 BlenoBindings.prototype.stop = function () {
   this.onExit()
-  this._hci.stop()
+  this._hci.stop();
 
   this._advertising = false;
-  this._address = null;
-  this._handle = null;
-  this._aclStream = null;
 }
 
 BlenoBindings.prototype.startAdvertising = function(name, serviceUuids) {

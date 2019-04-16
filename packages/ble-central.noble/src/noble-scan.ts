@@ -1,34 +1,40 @@
 import { XyoLogger } from "@xyo-network/logger"
 import { IXyoBluetoothDevice, IXyoScan } from "@xyo-network/ble-central"
 // import noble from '@s524797336/noble-mac'
-import noble from '@xyo-network/noble'
+import noble, { Noble } from '@xyo-network/noble'
 import { NobleDevice } from "./noble-device"
 
 export class NobleScan implements IXyoScan {
   private logger = new XyoLogger(false, false)
   private inRangeDevices: {[key: string]: IXyoBluetoothDevice; } = {}
+  public nobleInstance: Noble
 
-  constructor () {
-    noble.on("stateChange", this.stateChange)
-    noble.on("discover", this.discover)
+  constructor (nobleInstance: Noble) {
+    this.nobleInstance = nobleInstance
+    this.reset()
     setInterval(this.cleanDevices, 1000)
+  }
+
+  public reset () {
+    this.nobleInstance.on("stateChange", this.stateChange)
+    this.nobleInstance.on("discover", this.discover)
   }
 
   public startScan (): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (noble.state === "poweredOn") {
+      if (this.nobleInstance.state === "poweredOn") {
 
         const callback = () => {
           this.logger.info("Scanner stared successfully")
-          noble.removeListener('scanStart', callback)
+          this.nobleInstance.removeListener('scanStart', callback)
           resolve()
         }
 
-        noble.on('scanStart', callback)
+        this.nobleInstance.on('scanStart', callback)
 
         this.logger.info("Trying to start scanner")
 
-        noble.startScanning([], true)
+        this.nobleInstance.startScanning([], true)
         return
       }
 
@@ -40,7 +46,7 @@ export class NobleScan implements IXyoScan {
   public stopScan (): Promise<void> {
     return new Promise((resolve) => {
       this.logger.info("Stopping noble scanner")
-      noble.stopScanning()
+      this.nobleInstance.stopScanning()
       resolve()
     })
   }
