@@ -32,6 +32,15 @@ var NobleBindings = function() {
 util.inherits(NobleBindings, events.EventEmitter);
 
 NobleBindings.prototype.start = function () {
+  // insert other login here for starting up
+  this._hci.start()
+}
+
+NobleBindings.prototype.stop = function () {
+  // insert other logic here for shutting down
+  this.onExit()
+  this._hci.stop()
+
   this._addresses = {};
   this._addresseTypes = {};
   this._connectable = {};
@@ -46,14 +55,6 @@ NobleBindings.prototype.start = function () {
 
   this._hci = new Hci();
   this._gap = new Gap(this._hci);
-  // insert other login here for starting up
-  this._hci.start()
-}
-
-NobleBindings.prototype.stop = function () {
-  // insert other logic here for shutting down
-  this.onExit()
-  this._hci.stop()
 }
 
 
