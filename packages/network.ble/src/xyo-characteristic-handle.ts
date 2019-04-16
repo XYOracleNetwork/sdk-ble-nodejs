@@ -68,7 +68,7 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
             this.logger.info(`Sending chunk: ${chunk.toString("hex")}`)
             this.characteristic.value = chunk
             await this.characteristic.notifyChanged()
-            this.delay(250)
+            await this.delay(250)
         }
     }
 
