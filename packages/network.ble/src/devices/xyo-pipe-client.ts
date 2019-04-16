@@ -33,14 +33,14 @@ export class XyoPipeClient implements IXyoNetworkPipe {
   }
 
   public async tryCreatePipe (): Promise<null | IXyoNetworkPipe> {
-    // const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
-    //   XyoBase.timeout(() => {
-    //     this.device.disconnect()
-    //     reject("Timeout")
-    //   }, 10000)
-    // })
+    const timeout = new Promise<null | IXyoNetworkPipe>((_, reject) => {
+      XyoBase.timeout(() => {
+        this.device.disconnect()
+        reject("Timeout")
+      }, 10000)
+    })
 
-    return new Promise<null | IXyoNetworkPipe>(async (resolve, reject) => {
+    const promise = new Promise<null | IXyoNetworkPipe>(async (resolve, reject) => {
       try {
         if (this.device.state !== 'connected') {
           await this.device.connect()
@@ -78,7 +78,7 @@ export class XyoPipeClient implements IXyoNetworkPipe {
       }
     })
 
-    // return await Promise.race([promise, timeout])
+    return await Promise.race([promise, timeout])
   }
 
   public async send (data: Buffer, awaitResponse?: boolean): Promise<Buffer | undefined> {

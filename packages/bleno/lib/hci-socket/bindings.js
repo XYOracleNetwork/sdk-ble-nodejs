@@ -34,11 +34,6 @@ BlenoBindings.prototype.stop = function () {
   this._hci.stop()
 
   this._advertising = false;
-
-  this._hci = new Hci();
-  this._gap = new Gap(this._hci);
-  this._gatt = new Gatt(this._hci);
-
   this._address = null;
   this._handle = null;
   this._aclStream = null;
