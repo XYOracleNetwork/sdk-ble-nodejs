@@ -1,15 +1,15 @@
 {
   "name": "@xyo-network/ble-central.noble",
-  "version": "0.96.0",
+  "version": "0.97.0",
   "description": "BLE implementation for noble",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Carter Harrison",
   "license": "MIT",
   "dependencies": {
-    "@xyo-network/ble-central": "^0.96.0",
+    "@xyo-network/ble-central": "^0.97.0",
     "@xyo-network/logger": "0.29.0",
-    "@xyo-network/noble": "^0.96.0"
+    "@xyo-network/noble": "^0.97.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
