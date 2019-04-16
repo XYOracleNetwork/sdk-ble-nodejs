@@ -1,34 +1,29 @@
-
 declare module "@xyo-network/noble" { 
     import events = require("events");
 
+    export function startScanning(callback?: (error?: Error) => void): void;
+    export function startScanning(serviceUUIDs: string[], callback?: (error?: Error) => void): void;
+    export function startScanning(serviceUUIDs: string[], allowDuplicates: boolean, callback?: (error?: Error) => void): void;
+    export function stopScanning(callback?: () => void): void;
 
+    export function on(event: "stateChange", listener: (state: string) => void): events.EventEmitter;
+    export function on(event: "scanStart", listener: () => void): events.EventEmitter;
+    export function on(event: "scanStop", listener: () => void): events.EventEmitter;
+    export function on(event: "discover", listener: (peripheral: Peripheral) => void): events.EventEmitter;
+    export function on(event: string, listener: Function): events.EventEmitter;
 
-    export class Noble {
-        startScanning(callback?: (error?: Error) => void): void;
-        tartScanning(serviceUUIDs: string[], callback?: (error?: Error) => void): void;
-        startScanning(serviceUUIDs: string[], allowDuplicates: boolean, callback?: (error?: Error) => void): void;
-        stopScanning(callback?: () => void): void;
+    export function removeListener(event: "stateChange", listener: (state: string) => void): events.EventEmitter;
+    export function removeListener(event: "scanStart", listener: () => void): events.EventEmitter;
+    export function removeListener(event: "scanStop", listener: () => void): events.EventEmitter;
+    export function removeListener(event: "discover", listener: (peripheral: Peripheral) => void): events.EventEmitter;
+    export function removeListener(event: string, listener: Function): events.EventEmitter;
 
-        on(event: "stateChange", listener: (state: string) => void): events.EventEmitter;
-        on(event: "scanStart", listener: () => void): events.EventEmitter;
-        on(event: "scanStop", listener: () => void): events.EventEmitter;
-        on(event: "discover", listener: (peripheral: Peripheral) => void): events.EventEmitter;
-        on(event: string, listener: Function): events.EventEmitter;
+    export function removeAllListeners(event?: string): events.EventEmitter;
 
-        removeListener(event: "stateChange", listener: (state: string) => void): events.EventEmitter;
-        removeListener(event: "scanStart", listener: () => void): events.EventEmitter;
-        removeListener(event: "scanStop", listener: () => void): events.EventEmitter;
-        removeListener(event: "discover", listener: (peripheral: Peripheral) => void): events.EventEmitter;
-        removeListener(event: string, listener: Function): events.EventEmitter;
+    export function enable(): boolean
+    export function disable(): boolean
 
-        removeAllListeners(event?: string): events.EventEmitter;
-
-        enable(): boolean
-        disable(): boolean
-
-        state:string;
-    }
+    export var state:string;
 
     export class Peripheral extends events.EventEmitter {
         id:            string;
@@ -125,7 +120,4 @@ declare module "@xyo-network/noble" {
         on(event: string, listener: Function): this;
     }
 
-    export function newNoble () : Noble
 }
-
-

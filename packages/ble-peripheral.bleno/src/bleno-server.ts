@@ -6,16 +6,10 @@ import { XyoBase } from '@xyo-network/base';
 export class BlenoServer implements IXyoBluetoothPeripheral {
     private listeners = new Map<string, IXyoBluetoothPeripheralListener>()
     private logger = new XyoLogger(false, false)
-    public blenoInstance : Bleno
 
-    constructor (instance: Bleno) {
-        this.blenoInstance = instance
-        this.reset()
-    }
-
-    public reset () {
-        this.blenoInstance.on('accept', this.onConnect)
-        this.blenoInstance.on('disconnect', this.onDisconnect)
+    constructor () {
+        bleno.on('accept', this.onConnect)
+        bleno.on('disconnect', this.onDisconnect)
     }
 
     public addListener(key: string, listener: IXyoBluetoothPeripheralListener) {
@@ -38,8 +32,8 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
                 }
             }, 15_000)
 
-            if (this.blenoInstance.state == "poweredOn") {
-                this.blenoInstance.startAdvertisingWithEIRData(adv, scanResponse, (error) => {
+            if (bleno.state == "poweredOn") {
+                bleno.startAdvertisingWithEIRData(adv, scanResponse, (error) => {
                     if (error) {
                         this.logger.info(`Error trying to startAdvertising ${error}`)
                         reject(error)
@@ -51,13 +45,13 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
                     }
                 })
             } else {
-                reject(`Invalid state: ${this.blenoInstance.state}`)
+                reject(`Invalid state: ${bleno.state}`)
             }
         })
     }
 
     public async disconnect () {
-        this.blenoInstance.disconnect()
+        bleno.disconnect()
     }
 
     onConnect = () => {
@@ -92,7 +86,7 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
                 }
             }, 15_000)
 
-            this.blenoInstance.stopAdvertising(() => {
+            bleno.stopAdvertising(() => {
                 this.logger.info("Stopped advertiser")
 
                 if (!hasResumed) {

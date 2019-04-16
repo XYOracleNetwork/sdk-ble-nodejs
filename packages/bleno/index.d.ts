@@ -97,10 +97,7 @@ declare module "@xyo-network/bleno" {
         toString(): string;
     }
 
-    export class Bleno extends NodeJS.EventEmitter {
-
-        constructor()
-        
+    export interface Bleno extends NodeJS.EventEmitter {
         readonly Characteristic: typeof Characteristic;
         readonly Descriptor: typeof Descriptor;
         readonly PrimaryService: typeof PrimaryService;
@@ -145,5 +142,6 @@ declare module "@xyo-network/bleno" {
         on(event: 'rssiUpdate', cb: (rssi: number) => void): this;
     }
 
-    export function newBleno (): Bleno
+    const bleno: Bleno;
+    export default bleno;
 }
