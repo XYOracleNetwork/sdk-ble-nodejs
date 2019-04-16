@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/ble-peripheral",
-  "version": "0.105.0",
+  "version": "0.106.0",
   "description": "Bluetooth Network for XYO",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
