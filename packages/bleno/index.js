@@ -1,3 +1,7 @@
 var Bleno = require('./lib/bleno');
 
-module.exports = Bleno;
+const newBleno = () => {
+    return new Bleno()
+}
+
+module.exports = newBleno;
