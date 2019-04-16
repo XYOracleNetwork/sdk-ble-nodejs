@@ -13,6 +13,25 @@ var Signaling = require('./signaling');
 var NobleBindings = function() {
   this._state = null;
 
+  // this._addresses = {};
+  // this._addresseTypes = {};
+  // this._connectable = {};
+
+  // this._pendingConnectionUuid = null;
+  // this._connectionQueue = [];
+
+  // this._handles = {};
+  // this._gatts = {};
+  // this._aclStreams = {};
+  // this._signalings = {};
+
+  // this._hci = new Hci();
+  // this._gap = new Gap(this._hci);
+};
+
+util.inherits(NobleBindings, events.EventEmitter);
+
+NobleBindings.prototype.start = function () {
   this._addresses = {};
   this._addresseTypes = {};
   this._connectable = {};
@@ -27,11 +46,6 @@ var NobleBindings = function() {
 
   this._hci = new Hci();
   this._gap = new Gap(this._hci);
-};
-
-util.inherits(NobleBindings, events.EventEmitter);
-
-NobleBindings.prototype.start = function () {
   // insert other login here for starting up
   this._hci.start()
 }

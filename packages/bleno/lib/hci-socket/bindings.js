@@ -12,6 +12,20 @@ var Gatt = require('./gatt');
 var BlenoBindings = function() {
   this._state = null;
 
+  // this._advertising = false;
+
+  // this._hci = new Hci();
+  // this._gap = new Gap(this._hci);
+  // this._gatt = new Gatt(this._hci);
+
+  // this._address = null;
+  // this._handle = null;
+  // this._aclStream = null;
+};
+
+util.inherits(BlenoBindings, events.EventEmitter);
+
+BlenoBindings.prototype.start = function () {
   this._advertising = false;
 
   this._hci = new Hci();
@@ -21,11 +35,7 @@ var BlenoBindings = function() {
   this._address = null;
   this._handle = null;
   this._aclStream = null;
-};
 
-util.inherits(BlenoBindings, events.EventEmitter);
-
-BlenoBindings.prototype.start = function () {
   this._hci.start()
 }
 

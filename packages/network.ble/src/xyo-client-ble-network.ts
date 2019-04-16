@@ -17,7 +17,7 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     this.scanner = scanner
   }
 
-  private scanLambda = () => {
+  private scanLambda = async () => {
     const nearbyNow = this.scanner.getDevices()
     this.nearbyDevices = this.nearby.nearby(nearbyNow)
 
@@ -25,27 +25,32 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
       const randomDevice = this.nearbyDevices[Math.floor(Math.random() * this.nearbyDevices.length)]
       this.tryingDevice = true
 
+      await this.scanner.stopScan()
       randomDevice.tryCreatePipe().then(async (createdPipe) => {
         if (this.scanInterval) {
           clearInterval(this.scanInterval)
         }
 
         if (createdPipe) {
-          await this.scanner.stopScan()
           this.resolveCallback(createdPipe)
         } else {
           const callback = this.onClose
           if (callback) {
             callback()
+            return
           }
 
+          await this.scanner.startScan()
           this.tryingDevice = false
         }
       }).catch(async (e) => {
         const callback = this.onClose
         if (callback) {
           callback()
+          return
         }
+
+        await this.scanner.startScan()
 
         this.tryingDevice = false
       })

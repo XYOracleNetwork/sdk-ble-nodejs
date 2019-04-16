@@ -31,9 +31,8 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
     var found = false
 
-    if (!this.resumedOnServer) {
-      this.clientHandle(false)
-    }
+    this.clientHandle(false)
+    this.serverHandle(false)
 
     while (!found) {
       await this.delay(5_000)
