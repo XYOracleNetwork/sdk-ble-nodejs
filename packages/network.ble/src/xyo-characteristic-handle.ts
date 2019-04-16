@@ -43,6 +43,16 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         }
     }
 
+    private delay (mills: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+          const onDone = () => {
+            resolve()
+          }
+    
+          XyoBase.timeout(onDone, mills)
+        })
+      }
+
     private async chunkSend (data: Buffer) {
         this.logger.info(`Chunk send for server, entire: ${data.toString("hex")}`)
         // todo add timeout
@@ -58,6 +68,7 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
             this.logger.info(`Sending chunk: ${chunk.toString("hex")}`)
             this.characteristic.value = chunk
             await this.characteristic.notifyChanged()
+            this.delay(250)
         }
     }
 
