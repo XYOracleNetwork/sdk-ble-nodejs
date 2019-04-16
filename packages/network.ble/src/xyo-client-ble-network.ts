@@ -11,6 +11,7 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   private scanInterval : NodeJS.Timeout | undefined
   private nearby = new XyoNearbyDevices()
   private onPipe : ((pipe: IXyoNetworkPipe) => void) | undefined
+  private onClose : (() => void) | undefined
 
   constructor(scanner: IXyoScan) {
     this.scanner = scanner
@@ -33,9 +34,19 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
           await this.scanner.stopScan()
           this.resolveCallback(createdPipe)
         } else {
+          const callback = this.onClose
+          if (callback) {
+            callback()
+          }
+
           this.tryingDevice = false
         }
       }).catch(async (e) => {
+        const callback = this.onClose
+        if (callback) {
+          callback()
+        }
+
         this.tryingDevice = false
       })
     }
@@ -58,7 +69,16 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     }
 
     this.onPipe = undefined
+    this.onClose = undefined
     await this.scanner.stopScan()
+  }
+
+  private async waitForJobToFinish () {
+    return new Promise((resolve, reject) => {
+      this.onClose = () => {
+        resolve()
+      }
+    })
   }
 
   public findWithTimeout (timeoutInMills: number) : Promise<IXyoNetworkPipe | undefined> {
@@ -69,6 +89,10 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
         var hasResumed = false
         const onTimeout = async () => {
           if (!hasResumed) {
+            if (this.tryingDevice) {
+              await this.waitForJobToFinish()
+            }
+
             await this.shutDown()
             resolve(undefined)
           }
