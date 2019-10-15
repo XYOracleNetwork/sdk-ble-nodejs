@@ -17,6 +17,12 @@
   },
   "dependencies": {
     "i": "^0.3.6",
-    "npm": "^6.9.0"
-  }
+    "npm": "^6.9.0",
+    "snyk": "^1.235.0"
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
