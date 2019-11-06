@@ -1,6 +1,6 @@
-[logo]: https://cdn.xy.company/img/brand/XY_Logo_GitHub.png
+[logo]: https://cdn.xy.company/img/brand/XYO_full_colored.png
 
-[![logo]](https://xy.company)
+[![logo]](https://xyo.network)
 
 # sdk-ble-nodejs
 
@@ -12,24 +12,26 @@
 Table of Contents
 
 - [Sections](#sections)
-- [Title](#Archivist-App-Nodejs)
-- [Short Description](#short-description)
-- [Long Description](#long-description)
-- [Install](#install)
-- [Usage](#usage)
-- [API](#api)
+- [Title](#sdk-ble-nodejs)
+- [Description](#description)
 - [Maintainers](#maintainers)
-- [Contributing](#contributing)
 - [License](#license)
 - [Credits](#credits)
 
-### Maintainers
+## Description
+
+A ble library for XYO in Nodejs
+
+## Maintainers
 - Carter Harrison
 - Justin Fortier
 
-### License 
+## License
 
-MIT
+See the [LICENSE](LICENSE) file for license details.
 
-<p align="center">Made with  ❤️  by [<b>XY - The Persistent Company</b>] (https://xy.company)</p>
+## Credits
+
+Made with 🔥and ❄️ by [XY - The Persistent Company](https://www.xy.company)
+
 
