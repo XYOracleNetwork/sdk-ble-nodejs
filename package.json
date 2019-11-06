@@ -5,7 +5,7 @@
     "build": "tsc -b packages"
   },
   "devDependencies": {
-    "lerna": "^3.13.1"
+    "lerna": "^3.18.3"
   },
   "version": "0.1.0",
   "description": "A BLE SDK for node JS designed for XYO",
