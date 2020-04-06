@@ -2,14 +2,43 @@
   "name": "sdk-ble-nodejs",
   "private": false,
   "scripts": {
-    "build": "tsc -b packages"
+    "build": "yarn xybuild",
+    "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx"
   },
-  "devDependencies": {
-    "lerna": "^3.13.1"
-  },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A BLE SDK for node JS designed for XYO",
   "main": "index.js",
   "author": "Carter Harrison <carterjharrison@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@xyo-network/sdk-base-nodejs": "^0.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "12.0.3",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "@xyo-network/config-tslint": "^0.1.31",
+    "enquirer": "^2.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-typescript": "^7.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "jest": "24.8.0",
+    "license-checker": "^25.0.1",
+    "prettier": "^1.19.1",
+    "shelljs": "^0.8.3",
+    "ts-jest": "24.0.2",
+    "ts-node": "8.2.0",
+    "typescript": "^3.5.1"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "jsxSingleQuote": true
+  },
+  "files": [
+    "dist",
+    "bin"
+  ]
 }
