@@ -65,6 +65,7 @@ dist/
 .DS_Store
 
 # data
+data/
 archivist-db/
 db.json
 diviner-db/
@@ -75,13 +76,12 @@ sandbox/
 **/pids/*
 !**/pids/keep
 
-packages/app/config/*
-!packages/app/config/archivist.yaml
-!packages/app/config/diviner.yaml
-!packages/app/config/archivist-diviner.yaml
-
 # Scratch files
 scratch.ts
 scratch.js
 
 payondelivery/
+*.tsbuildinfo
+
+# state file for tests
+test-state.json

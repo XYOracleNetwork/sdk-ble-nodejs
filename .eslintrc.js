@@ -13,6 +13,8 @@ module.exports = {
   rules: {
     singleQuote: 0,
     trailingComma: 0,
-    semiColon: 0
-  },
+    semiColon: 0,
+    "@typescript-eslint/member-delimiter-style": "off",
+    "@typescript-eslint/interface-name-prefix": "off"
+  }
 }
