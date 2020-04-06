@@ -3,17 +3,17 @@ import {
   IXyoPluginDelegate,
   XyoBase
 } from '@xyo-network/sdk-base-nodejs'
-import { NobleScan } from './noble-scan'
+import { BlenoServer } from './bleno-server'
 
-class XyoBleNoble implements IXyoPlugin {
-  public BLE_CENTRAL: any | undefined
+class XyoBleBleno implements IXyoPlugin {
+  public BLE_PERIPHERAL: any | undefined
 
   public getName(): string {
-    return 'ble-noble'
+    return 'ble-bleno'
   }
 
   public getProvides(): string[] {
-    return ['BLE_CENTRAL']
+    return ['BLE_PERIPHERAL']
   }
 
   public getPluginDependencies(): string[] {
@@ -21,12 +21,12 @@ class XyoBleNoble implements IXyoPlugin {
   }
 
   public async initialize(delegate: IXyoPluginDelegate): Promise<boolean> {
-    const scanner = new NobleScan()
+    const scanner = new BlenoServer()
 
-    this.BLE_CENTRAL = scanner
+    this.BLE_PERIPHERAL = scanner
 
     return true
   }
 }
 
-module.exports = new XyoBleNoble()
+module.exports = new XyoBleBleno()

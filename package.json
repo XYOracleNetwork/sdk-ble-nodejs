@@ -1,6 +1,6 @@
 {
   "name": "@xyo-network/sdk-ble-nodejs",
-  "version": "0.70.26",
+  "version": "0.70.27",
   "description": "A workspace to aggregated nodejs XYO projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,6 +11,10 @@
     "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx",
     "start:tcp": "yarn build && node --nolazy -r ts-node/register examples/tcp-server/index.ts"
   },
+  "xyoPlugins": [
+    "/dist/peripheral/bleno/index.js",
+    "/dist/central/noble/index.js"
+  ],
   "devDependencies": {
     "@types/elliptic": "^6.4.8",
     "@types/jest": "^24.0.13",
@@ -33,6 +37,8 @@
     "typescript": "^3.5.1"
   },
   "dependencies": {
+    "@xyo-network/ble-peripheral": "^0.109.0",
+    "@xyo-network/bleno": "^0.109.0",
     "@xyo-network/sdk-base-nodejs": "^0.6.6",
     "bs58": "4.0.1",
     "elliptic": "6.5.2"
