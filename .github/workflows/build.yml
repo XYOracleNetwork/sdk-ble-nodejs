@@ -24,9 +24,10 @@ jobs:
         npm install -g lerna
     - name: install
       run: |
-        lerna exec -- yarn install
+        yarn install
     - name: lerna
       run: |
+        lerna exec -- yarn install
         lerna bootstrap --hoist
     - name: build
       run: yarn build
