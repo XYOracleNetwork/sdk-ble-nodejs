@@ -16,12 +16,13 @@ jobs:
       with:
         node-version: '10.x'
     - name: set-up
+    - name: install
       run: |
         yarn global add typescript
-        yarn global add lerna
-    - name: install
-      run: yarn install
+        yarn install
     - name: lerna
-      run: lerna bootstrap --hoist
+      run: |
+        yarn global add lerna
+        lerna bootstrap --hoist
     - name: build
       run: yarn build
