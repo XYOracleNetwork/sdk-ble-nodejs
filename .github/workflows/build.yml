@@ -12,16 +12,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with: 
+        fetch-depth: "0"
+    - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+    - name: set-up
+      run: |
+        npm install -g typescript
+        npm install -g lerna
     - name: install
       run: |
-        yarn global add typescript
         yarn install
     - name: lerna
       run: |
-        yarn global add lerna
         lerna bootstrap --hoist
     - name: build
       run: yarn build
