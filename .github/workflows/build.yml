@@ -8,7 +8,7 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -17,8 +17,8 @@ jobs:
         node-version: '10.x'
     - name: set-up
       run: |
-        npm install -g typescript
-        npm install -g lerna
+        yarn global add typescript
+        yarn global add lerna
     - name: install
       run: yarn install
     - name: lerna
