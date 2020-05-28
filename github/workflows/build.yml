@@ -1,0 +1,28 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - 'master' 
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+    - name: set-up
+      run: |
+        npm install -g tsc
+        npm install -g typescript
+        npm install -g lerna
+    - name: install
+      run: yarn install
+    - name: lerna
+      run: lerna bootstrap --hoist
+    - name: build
+      run: yarn build
