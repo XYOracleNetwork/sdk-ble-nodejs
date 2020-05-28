@@ -1,0 +1,48 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - '@xyo-network/ble-peripheral > npm > libcipm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmaccess > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmhook > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmorg > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmsearch > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > npm-profile > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmteam > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmteam > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmaccess > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > npm-profile > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmorg > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libcipm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmpublish > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmhook > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmsearch > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
