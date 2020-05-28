@@ -5,11 +5,11 @@
     "build": "tsc -b packages"
   },
   "devDependencies": {
-    "lerna": "^3.13.1"
+    "lerna": "^3.22.0"
   },
   "version": "0.1.0",
   "description": "A BLE SDK for node JS designed for XYO",
   "main": "index.js",
   "author": "Carter Harrison <carterjharrison@gmail.com>",
-  "license": "MIT"
+  "license": "LGPL-3.0"
 }
