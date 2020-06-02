@@ -2,7 +2,7 @@ import { IXyoBluetoothDevice, IXyoAdvertisement, IXyoService } from '../'
 import { NobleAdvertisement } from './noble-advertisement'
 import { NobleService } from './noble-service'
 // import noble from '@s524797336/noble-mac'
-import noble from '@xyo-network/noble'
+import noble from '@s524797336/noble-mac'
 import { XyoBase } from '@xyo-network/sdk-base-nodejs'
 
 export class NobleDevice extends XyoBase implements IXyoBluetoothDevice {

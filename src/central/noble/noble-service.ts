@@ -1,4 +1,4 @@
-import noble from '@xyo-network/noble'
+import noble from '@s524797336/noble-mac'
 import { IXyoService, IXyoCharacteristic } from '../'
 import { NobleCharacteristic } from './noble-characteristic'
 import { XyoBase } from '@xyo-network/sdk-base-nodejs'

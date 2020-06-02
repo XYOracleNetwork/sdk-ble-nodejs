@@ -1,4 +1,4 @@
-declare module '@xyo-network/noble' {
+declare module '@s524797336/noble-mac' {
   import events = require('events')
 
   export function startScanning(callback?: (error?: Error) => void): void

@@ -1,6 +1,6 @@
 import { IXyoBluetoothDevice, IXyoScan } from '../'
 // import noble from '@s524797336/noble-mac'
-import noble from '@xyo-network/noble'
+import noble from '@s524797336/noble-mac'
 import { NobleDevice } from './noble-device'
 import { XyoBase } from '@xyo-network/sdk-base-nodejs'
 
@@ -15,7 +15,10 @@ export class NobleScan extends XyoBase implements IXyoScan {
   }
 
   public startScan(): Promise<void> {
+    console.log('1')
+
     return new Promise((resolve, reject) => {
+      console.log('2')
       if (noble.state === 'poweredOn') {
         const callback = () => {
           this.logInfo('Scanner stared successfully')
@@ -30,7 +33,6 @@ export class NobleScan extends XyoBase implements IXyoScan {
         noble.startScanning([], true)
         return
       }
-
       this.logError('Noble is not powered on')
       reject()
     })

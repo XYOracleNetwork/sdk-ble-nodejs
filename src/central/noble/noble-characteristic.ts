@@ -1,6 +1,6 @@
 import { IXyoCharacteristic, IXyoDescriptor } from '../'
 import { NobleDescriptor } from './noble-descriptor'
-import noble from '@xyo-network/noble'
+import noble from '@s524797336/noble-mac'
 import { XyoBase } from '@xyo-network/sdk-base-nodejs'
 
 export class NobleCharacteristic extends XyoBase implements IXyoCharacteristic {
