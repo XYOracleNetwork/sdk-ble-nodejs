@@ -9,7 +9,8 @@
   "dependencies": {
     "@xyo-network/ble-central": "^0.68.0",
     "@xyo-network/logger": "0.29.0",
-    "noble": "carterharrison/noble#master"
+    "noble": "carterharrison/noble#master",
+    "snyk": "^1.334.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
@@ -20,5 +21,10 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.12.1",
     "typescript": "^3.2.2"
-  }
+  },
+  "scripts": {
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
