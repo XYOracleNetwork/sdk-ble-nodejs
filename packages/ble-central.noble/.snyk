@@ -6,3 +6,9 @@ patch:
   SNYK-JS-LODASH-567746:
     - '@xyo-network/logger > winston > async > lodash':
         patched: '2020-06-03T07:45:25.837Z'
+  'npm:debug:20170905':
+    - noble > debug:
+        patched: '2020-06-03T17:22:11.261Z'
+  'npm:ms:20170412':
+    - noble > debug > ms:
+        patched: '2020-06-03T17:22:11.261Z'

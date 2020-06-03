@@ -10,7 +10,7 @@
     "@xyo-network/ble-central": "^0.68.0",
     "@xyo-network/logger": "0.29.0",
     "noble": "carterharrison/noble#master",
-    "snyk": "^1.334.0"
+    "snyk": "^1.335.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
