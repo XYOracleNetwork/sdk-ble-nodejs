@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.13.5
+version: v1.14.1
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -46,3 +46,18 @@ patch:
         patched: '2019-10-15T04:53:48.556Z'
     - '@xyo-network/ble-peripheral > npm > libnpm > libnpmsearch > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
         patched: '2019-10-15T04:53:48.556Z'
+  SNYK-JS-LODASH-567746:
+    - '@xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/network > @xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/serialization-schema > @xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/heuristics > @xyo-network/buffer-utils > @xyo-network/utils > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/heuristics > @xyo-network/buffer-utils > @xyo-network/utils > @xyo-network/errors > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
