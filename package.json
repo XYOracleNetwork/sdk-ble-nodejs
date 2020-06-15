@@ -7,7 +7,10 @@
   "devDependencies": {
     "lerna": "^3.22.0"
   },
-  "version": "0.1.0",
+   "optionalDependencies": {
+    "fsevents": "*"
+  },
+  "version": "0.1.1",
   "description": "A BLE SDK for node JS designed for XYO",
   "main": "index.js",
   "author": "Carter Harrison <carterjharrison@gmail.com>",
