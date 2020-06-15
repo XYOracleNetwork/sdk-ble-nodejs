@@ -18,7 +18,7 @@ Table of Contents
 
 ## Description
 
-A ble library for XYO in Nodejs
+A ble library for XYO in node.js
 
 ## Maintainers
 
