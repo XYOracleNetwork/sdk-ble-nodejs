@@ -21,7 +21,6 @@ jobs:
     - name: set-up
       run: |
         npm install -g typescript
-        npm install -g lerna
     - name: action-lerna
       uses: m19c/action-lerna@1.0.0
       run: |
