@@ -18,13 +18,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '10.x'
-    - uses: m19c/action-lerna@1.0.0
     - name: set-up
       run: |
-        npm install -g typescript      
-    - name: lerna install and hoist
+        npm install -g typescript
+        npm install -g lerna
+    - name: install
       run: |
         lerna exec -- npm install
-        lerna bootstrap --hoist
     - name: build
       run: npm run build
