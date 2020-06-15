@@ -46,7 +46,7 @@
     "mocha": "~1.8.2",
     "should": "~1.2.2",
     "sinon": "~1.6.0",
-    "ws": "~0.4.31"
+    "ws": "~7.3.0"
   },
   "scripts": {
     "pretest": "jshint *.js lib/. test/.",
