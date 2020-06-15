@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.14.1
+version: v1.15.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -9,6 +9,10 @@ patch:
   'npm:debug:20170905':
     - noble > debug:
         patched: '2020-06-03T17:22:11.261Z'
+    - '@xyo-network/noble > debug':
+        patched: '2020-06-15T23:43:47.105Z'
   'npm:ms:20170412':
     - noble > debug > ms:
         patched: '2020-06-03T17:22:11.261Z'
+    - '@xyo-network/noble > debug > ms':
+        patched: '2020-06-15T23:43:47.105Z'
