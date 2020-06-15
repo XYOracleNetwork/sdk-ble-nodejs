@@ -1,0 +1,63 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - '@xyo-network/ble-peripheral > npm > libcipm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmaccess > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmhook > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmorg > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmsearch > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > npm-profile > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > pacote > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpmteam > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmteam > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmaccess > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > npm-profile > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmorg > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libcipm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmpublish > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > pacote > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmhook > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+    - '@xyo-network/ble-peripheral > npm > libnpm > libnpmsearch > npm-registry-fetch > make-fetch-happen > https-proxy-agent':
+        patched: '2019-10-15T04:53:48.556Z'
+  SNYK-JS-LODASH-567746:
+    - '@xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/network > @xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/serialization-schema > @xyo-network/serialization > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/heuristics > @xyo-network/buffer-utils > @xyo-network/utils > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
+    - '@xyo-network/heuristics-common > @xyo-network/heuristics > @xyo-network/buffer-utils > @xyo-network/utils > @xyo-network/errors > @xyo-network/base > @xyo-network/logger > winston > async > lodash':
+        patched: '2020-06-03T04:53:37.094Z'
