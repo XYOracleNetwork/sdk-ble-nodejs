@@ -9,7 +9,7 @@
   "dependencies": {
     "@xyo-network/ble-central": "^0.109.0",
     "@xyo-network/logger": "0.29.0",
-    "@xyo-network/noble": "^0.109.0"
+    "@xyo-network/noble": "^0.109.0",
     "snyk": "^1.335.0"
   },
   "devDependencies": {
