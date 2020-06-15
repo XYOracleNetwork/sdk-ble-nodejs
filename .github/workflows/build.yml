@@ -23,6 +23,7 @@ jobs:
         npm install -g typescript
     - name: action-lerna
       uses: m19c/action-lerna@1.0.0
+    - name: lerna install and hoist
       run: |
         lerna exec -- npm install
         lerna bootstrap --hoist
