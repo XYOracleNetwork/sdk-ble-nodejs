@@ -41,34 +41,44 @@ export class XyoPipeClient implements IXyoNetworkPipe {
     })
 
     const promise = new Promise<null | IXyoNetworkPipe>(async (resolve, reject) => {
-
-      if (this.device.state !== 'connected') {
-        await this.device.connect()
-      }
-
-      const services = await this.device.discoverServicesForUuids(["d684352edf36484ebc982d5398c5593e"])
-
-      if (services.length === 1) {
-        const characteristics = await services[0].discoverCharacteristics()
-
-        const xyoPipeChar = characteristics.filter((characteristic) => {
-          return characteristic.uuid === "727a36390eb44525b1bc7fa456490b2d"
-        })
-
-        if (xyoPipeChar.length === 1) {
-          this.sessionCharacteristic = xyoPipeChar[0]
-          await xyoPipeChar[0].subscribe()
-          this.networkHeuristics = [rssiSerializationProvider.newInstance(this.device.rssi)]
-          resolve(this)
+      try {
+        if (this.device.state !== 'connected') {
+          await this.device.connect()
+        }
+  
+        const services = await this.device.discoverServicesForUuids(["d684352edf36484ebc982d5398c5593e"])
+  
+        if (services.length === 1) {
+          const characteristics = await services[0].discoverCharacteristics()
+  
+          const xyoPipeChar = characteristics.filter((characteristic) => {
+            return characteristic.uuid === "727a36390eb44525b1bc7fa456490b2d"
+          })
+  
+          if (xyoPipeChar.length === 1) {
+            this.sessionCharacteristic = xyoPipeChar[0]
+            await xyoPipeChar[0].subscribe()
+            this.networkHeuristics = [rssiSerializationProvider.newInstance(this.device.rssi)]
+            resolve(this)
+            return
+          }
+  
+          await this.device.disconnect()
+          reject("No XYO pipe characteristic 1")
+          return
         }
 
-        reject("No XYO pipe characteristic 1")
-      }
+        await this.device.disconnect()
+        reject("No XYO service")
+      } catch (error) {
+        // timeout if here
 
-      reject("No XYO service")
+        await this.device.disconnect()
+        reject("Timeout error caught")
+      }
     })
 
-    return Promise.race([promise, timeout])
+    return await Promise.race([promise, timeout])
   }
 
   public async send (data: Buffer, awaitResponse?: boolean): Promise<Buffer | undefined> {

@@ -1,4 +1,4 @@
-import { addListener } from "cluster";
+import { addListener, disconnect } from "cluster";
 
 export enum XyoMutablePermissions {
   READ,
@@ -49,6 +49,7 @@ export interface IXyoBluetoothPeripheral {
   stopAdvertising: () => Promise<void> 
   addListener: (key: string, listener: IXyoBluetoothPeripheralListener) => void,
   removeListener: (key: string) => void
+  disconnect(): Promise<void>
 }
 
 export interface IXyoBluetoothPeripheralListener {

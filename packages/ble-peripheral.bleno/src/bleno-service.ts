@@ -1,4 +1,4 @@
-import { PrimaryService, Characteristic } from 'bleno'
+import { PrimaryService, Characteristic } from '@xyo-network/bleno'
 import { IXyoMutableCharacteristic } from '@xyo-network/ble-peripheral';
 import { IXyoBluetoothPeripheral, IXyoMutableDescriptor, IXyoMutableService } from '@xyo-network/ble-peripheral'
 import { BlenoCharacteristic } from './bleno-characteristic';

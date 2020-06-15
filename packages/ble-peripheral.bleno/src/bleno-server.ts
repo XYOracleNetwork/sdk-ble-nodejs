@@ -1,6 +1,7 @@
-import bleno from 'bleno' 
+import bleno, { Bleno } from '@xyo-network/bleno' 
 import { IXyoBluetoothPeripheral, IXyoBluetoothPeripheralListener } from '@xyo-network/ble-peripheral'
 import { XyoLogger } from '@xyo-network/logger'
+import { XyoBase } from '@xyo-network/base';
 
 export class BlenoServer implements IXyoBluetoothPeripheral {
     private listeners = new Map<string, IXyoBluetoothPeripheralListener>()
@@ -21,7 +22,15 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
 
     public startAdvertising (adv: Buffer, scanResponse: Buffer): Promise<void> {
         return new Promise((resolve, reject) => {
+            let hasResumed = false
             this.logger.info(`Trying to start advertising, adv: ${adv.toString('hex')}, scanResponse: ${scanResponse.toString('hex')}`)
+
+            XyoBase.timeout(() => {
+                if (!hasResumed) {
+                    hasResumed = true
+                    resolve()
+                }
+            }, 15_000)
 
             if (bleno.state == "poweredOn") {
                 bleno.startAdvertisingWithEIRData(adv, scanResponse, (error) => {
@@ -29,14 +38,20 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
                         this.logger.info(`Error trying to startAdvertising ${error}`)
                         reject(error)
                     } else {
-                        resolve()
+                        if (!hasResumed) {
+                            hasResumed = true
+                            resolve()
+                        }
                     }
                 })
             } else {
                 reject(`Invalid state: ${bleno.state}`)
             }
         })
-        
+    }
+
+    public async disconnect () {
+        bleno.disconnect()
     }
 
     onConnect = () => {
@@ -61,11 +76,23 @@ export class BlenoServer implements IXyoBluetoothPeripheral {
 
     public stopAdvertising (): Promise<void> {
         return new Promise((resolve, reject) => { 
+            let hasResumed = false
             this.logger.info("Trying to stop advertiser")
+
+            XyoBase.timeout(() => {
+                if (!hasResumed) {
+                    hasResumed = true
+                    resolve()
+                }
+            }, 15_000)
 
             bleno.stopAdvertising(() => {
                 this.logger.info("Stopped advertiser")
-                resolve()
+
+                if (!hasResumed) {
+                    hasResumed = true
+                    resolve()
+                }
             })
         })
     }

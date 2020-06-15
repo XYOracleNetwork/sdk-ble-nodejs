@@ -31,12 +31,13 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
   public async find(catalogue: IXyoNetworkProcedureCatalogue): Promise <IXyoNetworkPipe> {
     var found = false
 
-    if (!this.resumedOnServer) {
-      this.clientHandle(false)
-    }
+    this.clientHandle(false)
+    this.serverHandle(false)
 
     while (!found) {
+      await this.delay(2_500)
       this.serverHandle(true)
+      await this.delay(2_500)
       const pipeFromServer = await this.server.findWithTimeout(this.getRandomInterval())
 
       if (pipeFromServer) {
@@ -46,11 +47,11 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
       }
 
       this.serverHandle(false)
+      await this.delay(2_500)
       this.clientHandle(true)
+      await this.delay(2_500)
 
-      await this.delay(5_000)
-
-      const pipeFromClient = await this.client.findWithTimeout(this.getRandomInterval())
+      const pipeFromClient = await this.client.findWithTimeout(this.getRandomInterval() / 2)
 
       if (pipeFromClient) {
         found = true
@@ -59,8 +60,6 @@ export class XyoFullBleNetwork implements IXyoNetworkProvider {
       }
 
       this.clientHandle(false)
-
-      await this.delay(5_000)
     }
 
     throw new Error("Invalid state")

@@ -1,11 +1,4 @@
-// Type definitions for bleno 0.4
-// Project: https://github.com/sandeepmistry/bleno
-// Definitions by: Manuel Francisco Naranjo <naranjo.manuel@gmail.com>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-
-/// <reference types="node" />
-
-declare module "bleno" {
+declare module "@xyo-network/bleno" {
     export type State = 'poweredOn' | 'poweredOff' | 'unauthorized' | 'unsupported' | 'unknown' | 'resetting';
 
     export type Property = 'read' | 'write' | 'indicate' | 'notify' | 'writeWithoutResponse';
@@ -120,7 +113,6 @@ declare module "bleno" {
         readonly state: State;
 
         enable(): boolean
-
         disable(): boolean
 
         disconnect(): void;
@@ -153,7 +145,3 @@ declare module "bleno" {
     const bleno: Bleno;
     export default bleno;
 }
-
-
-
-

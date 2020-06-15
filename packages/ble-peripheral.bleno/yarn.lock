@@ -27,7 +27,7 @@
   version "10.14.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.14.4.tgz#1c586b991457cbb58fef51bc4e0cfcfa347714b5"
   integrity sha512-DT25xX/YgyPKiHFOpNuANIQIVvYEwCWXgK2jYYwqgaMrYE6+tq+DtmMwlD3drl6DJbUwtlIDnn0d7tIn/EbXBg==
-
+  
 "@xyo-network/ble-peripheral@^0.68.0":
   version "0.68.0"
   resolved "https://registry.yarnpkg.com/@xyo-network/ble-peripheral/-/ble-peripheral-0.68.0.tgz#4c43e2bea80a792c9c823d33e5a8f6337666a5e1"

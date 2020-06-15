@@ -1,6 +1,6 @@
 import { IXyoCharacteristic, IXyoDescriptor } from "@xyo-network/ble-central"
 import { NobleDescriptor } from './noble-descriptor'
-import noble from 'noble'
+import noble from '@xyo-network/noble'
 import { XyoLogger } from '@xyo-network/logger'
 
 export class NobleCharacteristic implements IXyoCharacteristic {

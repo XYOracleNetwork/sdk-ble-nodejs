@@ -6,20 +6,16 @@ import { XyoLogger } from '@xyo-network/logger';
 import { XyoBase } from '@xyo-network/base';
 
 export class XyoServerNetwork implements IXyoNetworkProvider {
-    private advertisementId = 0x03
+    private onResume: (() => void) | undefined
+    private isAdvertising = false
+    private isPaused = false
     private currentDeviceId: string = ""
     private logger = new XyoLogger(false, false)
-    private advData = new XyoAdvertisement(this.getMajor(), this.getMinor())
+    private advData = new XyoAdvertisement(this.getMinor())
     private server: IXyoBluetoothPeripheral
     private deviceRouter: { [key:string]:XyoCharacteristicHandle; } = {};
     private pipeCharacteristic: IXyoMutableCharacteristic
     private onNewPipe: ((pipe: IXyoNetworkPipe) => void) | undefined
-
-    private getMajor () : number {
-        const randomBase =  Math.floor(Math.random() * 65534)
-        const randomBaseWithMask = randomBase & 0b1111_1111_1100_00000
-        return randomBaseWithMask | this.advertisementId
-    }
 
     private getMinor () : number {
         return 0
@@ -28,6 +24,10 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
     private serverEndpoint: IXyoMutableCharacteristicListener = {
         onWrite: async (value: Buffer): Promise<boolean> => {
             // todo get device id here
+
+            if (this.isPaused) {
+                return false
+            }
 
             const deviceKey = "0"
             const handler = this.deviceRouter[deviceKey]
@@ -64,6 +64,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
         onUnsubscribe: () => {
             delete this.deviceRouter[this.currentDeviceId]
+            this.server.disconnect()
         }
     }
 
@@ -86,35 +87,69 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     private closeHandler = (id: string) => {
         this.logger.info("Closing pipe")
+        this.server.disconnect()
         delete this.deviceRouter[id]
+    }
+
+    public async pause () {
+        await this.server.stopAdvertising()
+        this.isAdvertising = false
+        this.isPaused = true
+    }
+
+    public unPause () {
+        this.isPaused = false
+
+        const callback = this.onResume
+        if (callback) {
+            this.server.disconnect()
+            callback()
+        }
     }
 
     public async findWithTimeout (timeoutInMills: number): Promise <IXyoNetworkPipe | undefined> {  
         return new Promise((resolve, reject) => {
             var hasResumed = false
-            this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
-            this.logger.info("Find start for server")
 
-            const onTimeout = async () => {
-                if (!hasResumed) {
-                    this.logger.info("Timeout for pipe")
-                    this.onNewPipe = undefined
-                    await this.server.stopAdvertising()
-                    resolve(undefined)
+            this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse()).then(() => {
+                const onTimeout = async () => {
+                    if (!hasResumed && !this.isPaused) {
+                        this.logger.info("Timeout or resume for pipe")
+                        hasResumed = true
+                        this.onNewPipe = undefined
+    
+                        if (this.isAdvertising) {
+                            await this.server.stopAdvertising()
+                            this.isAdvertising = false
+                        }
+                        
+                        resolve(undefined)
+                    }
                 }
-            }
+    
+                XyoBase.timeout(onTimeout, timeoutInMills)
+                this.onResume = onTimeout
 
-            XyoBase.timeout(onTimeout, timeoutInMills)
+                this.isAdvertising = true
+                this.logger.info("Find start for server")
+        
+                this.logger.info("Waiting for pipe")
 
-            this.logger.info("Waiting for pipe")
+                this.onNewPipe = async (pipe: IXyoNetworkPipe) => {
+                    this.logger.info("Resuming with pipe")
+                    hasResumed = true
+                    this.onNewPipe = undefined
 
-            this.onNewPipe = async (pipe: IXyoNetworkPipe) => {
-                this.logger.info("Resuming with pipe")
-                hasResumed = true
-                this.onNewPipe = undefined
-                await this.server.stopAdvertising()
-                resolve(pipe)
-            }
+                    if (this.isAdvertising) {
+                        await this.server.stopAdvertising()
+                        this.isAdvertising = false
+                    }
+
+                    resolve(pipe)
+                }
+            }).catch(() => {
+                resolve()
+            })
         })
     }
 
@@ -122,6 +157,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         this.logger.info("Find start for server")
 
         await this.server.startAdvertising(this.advData.advertisementData(), this.advData.getScanResponse())
+        this.isAdvertising = true
 
         const result = await new Promise((resolve, reject) => {
             this.logger.info("Waiting for pipe")
@@ -133,6 +169,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
         }) as IXyoNetworkPipe
 
         await this.server.stopAdvertising()
+        this.isAdvertising = false
 
         this.logger.info("Returning pipe")
         return result
@@ -144,7 +181,7 @@ export class XyoServerNetwork implements IXyoNetworkProvider {
 
     public async stopServer(): Promise <void> {
         this.logger.info("Stopping server")
-
+        this.isAdvertising = false
         await this.server.stopAdvertising()
     }
 }

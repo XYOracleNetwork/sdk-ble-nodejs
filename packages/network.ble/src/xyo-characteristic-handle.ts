@@ -4,6 +4,7 @@ import { IXyoSerializableObject } from '@xyo-network/serialization';
 import { XyoInputStream } from './data/xyo-input-stream';
 import { chunkBytes } from './data/xyo-output-stream'
 import { XyoLogger } from '@xyo-network/logger';
+import { XyoBase } from '@xyo-network/base';
 
 export class XyoCharacteristicHandle implements IXyoNetworkPipe {
     private logger: XyoLogger = new XyoLogger(false, false)
@@ -42,6 +43,16 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         }
     }
 
+    private delay (mills: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+          const onDone = () => {
+            resolve()
+          }
+    
+          XyoBase.timeout(onDone, mills)
+        })
+      }
+
     private async chunkSend (data: Buffer) {
         this.logger.info(`Chunk send for server, entire: ${data.toString("hex")}`)
         // todo add timeout
@@ -56,6 +67,7 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         for (const chunk of chunksToSend) {
             this.logger.info(`Sending chunk: ${chunk.toString("hex")}`)
             this.characteristic.value = chunk
+            await this.delay(200)
             await this.characteristic.notifyChanged()
         }
     }
@@ -65,11 +77,25 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
         this.logger.info(`Waiting for write`)
     
         return new Promise((resolve, reject) => {
-            this.packetCompleteCallback = (value: Buffer) => {
-                this.logger.info(`PacketCompleteCallback resolved`)
+            let hasResumed = false
 
-                this.packetCompleteCallback = undefined
-                resolve(value)
+            const onTimeout = () => {
+                if (!hasResumed) {
+                    hasResumed = true
+                    this.packetCompleteCallback = undefined
+                    resolve(undefined)
+                }
+            }
+
+            XyoBase.timeout(onTimeout, 30_000)
+
+            this.packetCompleteCallback = (value: Buffer) => {
+                if (!hasResumed) {
+                    this.logger.info(`PacketCompleteCallback resolved`)
+                    hasResumed = true
+                    this.packetCompleteCallback = undefined
+                    resolve(value)
+                }
             }
         })
     }
@@ -88,13 +114,15 @@ export class XyoCharacteristicHandle implements IXyoNetworkPipe {
             return this.waitForWrite()
         }
 
-        return
+        return undefined
     }
 
     async close(): Promise<void> {
         const callback = this.onClose
 
         if (callback) {
+            // todo, find a wait to get await notifaction so we do not have this delay
+            await this.delay(500)
             // todo get id of device
             callback("0")
         }

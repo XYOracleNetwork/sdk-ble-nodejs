@@ -1,7 +1,6 @@
 
 import { IXyoMutableCharacteristic, XyoMutablePermissions, IXyoMutableDescriptor, IXyoMutableCharacteristicListener } from '@xyo-network/ble-peripheral'
-import { Characteristic, Bleno, Descriptor, CharacteristicOptions, Property } from 'bleno'
-import bleno from 'bleno'
+import { Characteristic, Bleno, Descriptor, CharacteristicOptions, Property } from '@xyo-network/bleno'
 import { BlenoDescriptor } from './bleno-descriptor';
 import { XyoLogger } from '@xyo-network/logger';
 

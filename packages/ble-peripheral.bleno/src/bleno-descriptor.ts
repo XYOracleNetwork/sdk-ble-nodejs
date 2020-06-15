@@ -1,6 +1,6 @@
 
 import { IXyoMutableDescriptor, XyoMutablePermissions } from '@xyo-network/ble-peripheral'
-import { Descriptor } from 'bleno'
+import { Descriptor } from '@xyo-network/bleno'
 
 export class BlenoDescriptor implements IXyoMutableDescriptor {
     private descriptor: Descriptor

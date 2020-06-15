@@ -11,12 +11,13 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
   private scanInterval : NodeJS.Timeout | undefined
   private nearby = new XyoNearbyDevices()
   private onPipe : ((pipe: IXyoNetworkPipe) => void) | undefined
+  private onClose : (() => void) | undefined
 
   constructor(scanner: IXyoScan) {
     this.scanner = scanner
   }
 
-  private scanLambda = () => {
+  private scanLambda = async () => {
     const nearbyNow = this.scanner.getDevices()
     this.nearbyDevices = this.nearby.nearby(nearbyNow)
 
@@ -24,19 +25,33 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
       const randomDevice = this.nearbyDevices[Math.floor(Math.random() * this.nearbyDevices.length)]
       this.tryingDevice = true
 
-      randomDevice.tryCreatePipe().then((createdPipe) => {
+      await this.scanner.stopScan()
+      randomDevice.tryCreatePipe().then(async (createdPipe) => {
         if (this.scanInterval) {
           clearInterval(this.scanInterval)
         }
 
         if (createdPipe) {
-          this.scanner.stopScan()
           this.resolveCallback(createdPipe)
         } else {
+          const callback = this.onClose
+          if (callback) {
+            callback()
+            return
+          }
+
+          await this.scanner.startScan()
           this.tryingDevice = false
         }
-      }).catch((e) => {
-        this.scanner.startScan()
+      }).catch(async (e) => {
+        const callback = this.onClose
+        if (callback) {
+          callback()
+          return
+        }
+
+        await this.scanner.startScan()
+
         this.tryingDevice = false
       })
     }
@@ -50,7 +65,7 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     }
   }
 
-  private shutDown () {
+  private async shutDown () {
     const interval = this.scanInterval
 
     if (interval) {
@@ -59,32 +74,47 @@ export class XyoClientBluetoothNetwork implements IXyoNetworkProvider {
     }
 
     this.onPipe = undefined
-    this.scanner.stopScan()
+    this.onClose = undefined
+    await this.scanner.stopScan()
+  }
+
+  private async waitForJobToFinish () {
+    return new Promise((resolve, reject) => {
+      this.onClose = () => {
+        resolve()
+      }
+    })
   }
 
   public findWithTimeout (timeoutInMills: number) : Promise<IXyoNetworkPipe | undefined> {
     this.tryingDevice = false
 
     return new Promise((resolve, reject) => {
-      this.scanner.startScan()
+      this.scanner.startScan().then(() => {
+        var hasResumed = false
+        const onTimeout = async () => {
+          if (!hasResumed) {
+            if (this.tryingDevice) {
+              await this.waitForJobToFinish()
+            }
 
-      var hasResumed = false
-      const onTimeout = () => {
-        if (!hasResumed) {
-          this.shutDown()
-          resolve(undefined)
+            await this.shutDown()
+            resolve(undefined)
+          }
         }
-      }
 
-      XyoBase.timeout(onTimeout, timeoutInMills)
+        XyoBase.timeout(onTimeout, timeoutInMills)
 
-      this.onPipe = (pipe: IXyoNetworkPipe) => {
-        hasResumed = true
-        this.shutDown()
-        resolve(pipe)
-      }
+        this.onPipe = async (pipe: IXyoNetworkPipe) => {
+          hasResumed = true
+          await this.shutDown()
+          resolve(pipe)
+        }
 
-      this.scanInterval = setInterval(this.scanLambda, 1000)
+        this.scanInterval = setInterval(this.scanLambda, 1000)
+      }).catch(() => {
+        resolve()
+      })
     })
   }
 
