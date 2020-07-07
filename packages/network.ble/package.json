@@ -14,7 +14,7 @@
     "@xyo-network/logger": "^0.29.0",
     "@xyo-network/network": "^0.55.0",
     "@xyo-network/serialization": "^0.55.0",
-    "snyk": "^1.334.0"
+    "snyk": "^1.360.0"
   },
   "devDependencies": {
     "@types/bleno": "0.4.1",
