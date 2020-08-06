@@ -10,7 +10,7 @@
    "optionalDependencies": {
     "fsevents": "*"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A BLE SDK for node JS designed for XYO",
   "main": "index.js",
   "author": "Carter Harrison <carterjharrison@gmail.com>",
