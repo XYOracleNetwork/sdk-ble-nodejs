@@ -13,7 +13,7 @@
     "@xyo-network/logger": "0.29.0"
   },
   "devDependencies": {
-    "@types/": "^23.3.1",
+    "@types/jest": "^26.0.9",
     "@types/node": "^10.7.1",
     "jest": "^26.2.2",
     "ts-jest": "^26.1.4",
