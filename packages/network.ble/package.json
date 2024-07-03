@@ -11,8 +11,8 @@
     "@xyo-network/ble-central": "^0.109.0",
     "@xyo-network/ble-peripheral": "^0.109.0",
     "@xyo-network/heuristics-common": "^0.55.0",
-    "@xyo-network/logger": "^0.29.0",
-    "@xyo-network/network": "^0.55.0",
+    "@xyo-network/logger": "^2.67.0",
+    "@xyo-network/network": "^2.20.15",
     "@xyo-network/serialization": "^0.55.0",
     "snyk": "^1.360.0"
   },
