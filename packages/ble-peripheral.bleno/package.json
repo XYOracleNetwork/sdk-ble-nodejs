@@ -10,7 +10,7 @@
     "@xyo-network/base": "^0.55.0",
     "@xyo-network/ble-peripheral": "^0.109.0",
     "@xyo-network/bleno": "^0.109.0",
-    "@xyo-network/logger": "0.29.0"
+    "@xyo-network/logger": "2.67.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.9",
